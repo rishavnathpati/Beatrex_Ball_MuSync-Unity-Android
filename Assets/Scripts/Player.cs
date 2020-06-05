@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -11,7 +9,7 @@ public class Player : MonoBehaviour
     public float gravity = 1f;
     public float jumpMultiplier = 30f;
 
-    bool isDragging=false;
+    bool isDragging = false;
     Vector2 touchPos, playerPos, dragPos;
 
 
@@ -31,27 +29,27 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Stair"))
+        if (collision.CompareTag("Stair"))
         {
-            if(rb.velocity.y<=0f)
+            if (rb.velocity.y <= 0f)
             {
                 jumpForce = gravity * jumpMultiplier;
                 rb.velocity = new Vector2(0, jumpForce);
             }
-                
+
         }
     }
 
     private void getInput()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("Mouse button Down");
             isDragging = true;
             touchPos = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
             playerPos = transform.position;
         }
-        else if(Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0))
         {
             Debug.Log("Mouse button Up");
             isDragging = false;
@@ -60,10 +58,19 @@ public class Player : MonoBehaviour
 
     void movePlayer()
     {
-        if(isDragging)
+        if (isDragging)
         {
             dragPos = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
             transform.position = new Vector2(playerPos.x + (dragPos.x - touchPos.x), transform.position.y);
+
+            if (transform.position.x < -4.6f)
+            {
+                transform.position = new Vector2(-4.6f, transform.position.y);
+            }
+            if (transform.position.x > 4.6f)
+            {
+                transform.position = new Vector2(4.6f, transform.position.y);
+            }
         }
     }
 
