@@ -7,8 +7,13 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rb;
     float jumpForce;
+
     public float gravity = 1f;
     public float jumpMultiplier = 30f;
+
+    bool isDragging=false;
+    Vector2 touchPos, playerPos, dragPos;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +25,8 @@ public class Player : MonoBehaviour
     void Update()
     {
         addGravity();
+        getInput();
+        movePlayer();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,6 +39,31 @@ public class Player : MonoBehaviour
                 rb.velocity = new Vector2(0, jumpForce);
             }
                 
+        }
+    }
+
+    private void getInput()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Mouse button Down");
+            isDragging = true;
+            touchPos = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+            playerPos = transform.position;
+        }
+        else if(Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("Mouse button Up");
+            isDragging = false;
+        }
+    }
+
+    void movePlayer()
+    {
+        if(isDragging)
+        {
+            dragPos = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+            transform.position = new Vector2(playerPos.x + (dragPos.x - touchPos.x), transform.position.y);
         }
     }
 
