@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
         addGravity();
         GetInput();
         MovePlayer();
+        CheckPlayerPos();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -86,5 +88,11 @@ public class Player : MonoBehaviour
     void addGravity()
     {
         rb.velocity = new Vector2(0, rb.velocity.y - (gravity * gravity));
+    }
+
+    void CheckPlayerPos()
+    {
+        if (transform.position.y < Camera.main.transform.position.y - 15)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
