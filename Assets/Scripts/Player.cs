@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -23,8 +24,8 @@ public class Player : MonoBehaviour
     void Update()
     {
         addGravity();
-        getInput();
-        movePlayer();
+        GetInput();
+        MovePlayer();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,12 +36,20 @@ public class Player : MonoBehaviour
             {
                 jumpForce = gravity * jumpMultiplier;
                 rb.velocity = new Vector2(0, jumpForce);
+                DestroyAndMakeStair(collision);
             }
 
         }
     }
 
-    private void getInput()
+    private void DestroyAndMakeStair(Collider2D collision)
+    {
+        Destroy(collision.gameObject,2f);
+        //collision.gameObject.SetActive(false);
+        StairSpawner.stairSpawner.makeStair();
+    }
+
+    private void GetInput()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -56,7 +65,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void movePlayer()
+    void MovePlayer()
     {
         if (isDragging)
         {
