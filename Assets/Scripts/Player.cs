@@ -93,7 +93,7 @@ public class Player : MonoBehaviour
 
     void addGravity()
     {
-        rb.velocity = new Vector2(0, rb.velocity.y-0.8f);
+        rb.velocity = new Vector2(0, rb.velocity.y-0.5f);
     }
 
     void CheckPlayerPos()
