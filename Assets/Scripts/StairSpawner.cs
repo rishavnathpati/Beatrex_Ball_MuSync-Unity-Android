@@ -14,7 +14,7 @@ public class StairSpawner : MonoBehaviour
     Vector2 newPosition;
 
     public static StairSpawner stairSpawner=null;
-    List<GameObject> stairList = new List<GameObject>();
+    float hue;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +24,7 @@ public class StairSpawner : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
             spawnStairs();
+        InitColour();
     }
 
     void spawnStairs()
@@ -42,5 +43,11 @@ public class StairSpawner : MonoBehaviour
         stair.transform.SetParent(transform);
         stair.transform.localScale = new Vector2(stairWidth, stairHeight);
         index++;
+    }
+
+    public void InitColour()
+    {
+        hue = UnityEngine.Random.Range(0f, 1f);
+        Camera.main.backgroundColor = Color.HSVToRGB(hue, 0.8f, 0.9f);
     }
 }

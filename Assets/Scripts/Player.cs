@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
                 jumpForce = gravity * jumpMultiplier;
                 rb.velocity = new Vector2(0, jumpForce);
                 DestroyAndMakeStair(collision);
+                StairSpawner.stairSpawner.InitColour();
             }
 
         }
