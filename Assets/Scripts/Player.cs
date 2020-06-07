@@ -6,14 +6,13 @@ public class Player : MonoBehaviour
 {
 
     Rigidbody2D rb;
-    float jumpForce;
+    public float jumpForce;
 
-    public float gravity = 1f;
-    public float jumpMultiplier = 30f;
+    //public float gravity,jumpMultiplier;
 
     bool isDragging = false;
     Vector2 touchPos, playerPos, dragPos;
-
+    public GameObject jumpEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -36,13 +35,19 @@ public class Player : MonoBehaviour
         {
             if (rb.velocity.y <= 0f)
             {
-                jumpForce = gravity * jumpMultiplier;
+                //jumpForce = gravity * jumpMultiplier;
                 rb.velocity = new Vector2(0, jumpForce);
                 DestroyAndMakeStair(collision);
                 StairSpawner.stairSpawner.InitColour();
+                JumpEffect();
             }
 
         }
+    }
+
+    private void JumpEffect()
+    {
+        Destroy(Instantiate(jumpEffect, transform.position, Quaternion.identity),0.5f);
     }
 
     private void DestroyAndMakeStair(Collider2D collision)
@@ -88,7 +93,7 @@ public class Player : MonoBehaviour
 
     void addGravity()
     {
-        rb.velocity = new Vector2(0, rb.velocity.y - (gravity * gravity));
+        rb.velocity = new Vector2(0, rb.velocity.y-0.8f);
     }
 
     void CheckPlayerPos()

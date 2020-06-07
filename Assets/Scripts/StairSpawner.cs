@@ -48,6 +48,6 @@ public class StairSpawner : MonoBehaviour
     public void InitColour()
     {
         hue = UnityEngine.Random.Range(0f, 1f);
-        Camera.main.backgroundColor = Color.HSVToRGB(hue, 0.8f, 0.9f);
+        Camera.main.backgroundColor = Color.HSVToRGB(hue, 0.9f, 0.9f);
     }
 }

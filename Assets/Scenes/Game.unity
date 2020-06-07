@@ -335,7 +335,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0.1
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -353,8 +353,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1157442381698934e8ae63efd9a00f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 1.2
-  jumpMultiplier: 32
+  jumpForce: 32
+  jumpEffect: {fileID: 9123450095580037065, guid: 19d30170c0cb787408d19f37c7792550,
+    type: 3}
 --- !u!1 &1479723782
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,4 +402,4 @@ MonoBehaviour:
   stairPrefab: {fileID: 7281337476103187338, guid: ecb81e2a1c883ad41b024188f86c1c1c,
     type: 3}
   stairWidth: 3.5
-  stairHeight: 0.5
+  stairHeight: 0.6
