@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StairSpawner : MonoBehaviour
 {
@@ -13,7 +11,7 @@ public class StairSpawner : MonoBehaviour
 
     Vector2 newPosition;
 
-    public static StairSpawner stairSpawner=null;
+    public static StairSpawner stairSpawner = null;
     float hue;
 
     // Start is called before the first frame update
@@ -34,10 +32,10 @@ public class StairSpawner : MonoBehaviour
 
     public void makeStair()
     {
-        if(index==0)
-             newPosition = new Vector2(0, index * 5f);
+        if (index == 0)
+            newPosition = new Vector2(0, index * 5f);
         else
-         newPosition = new Vector2(UnityEngine.Random.Range(-4.6f,4.6f), index * 5f);
+            newPosition = new Vector2(UnityEngine.Random.Range(-4.6f, 4.6f), index * 5f);
 
         GameObject stair = Instantiate(stairPrefab, newPosition, Quaternion.identity);
         stair.transform.SetParent(transform);
