@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
         CheckPlayerPos();
     }
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Stair"))
@@ -191,13 +192,13 @@ public class Player : MonoBehaviour
             dragPos = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
             transform.position = new Vector2(playerPos.x + (dragPos.x - touchPos.x), transform.position.y);
 
-            if (transform.position.x < -4.6f)
+            if (transform.position.x < -5f)
             {
-                transform.position = new Vector2(-4.6f, transform.position.y);
+                transform.position = new Vector2(-5f, transform.position.y);
             }
-            if (transform.position.x > 4.6f)
+            if (transform.position.x > 5f)
             {
-                transform.position = new Vector2(4.6f, transform.position.y);
+                transform.position = new Vector2(5f, transform.position.y);
             }
         }
     }
@@ -215,11 +216,17 @@ public class Player : MonoBehaviour
             {
                 playerUp = false;
                 PlayAudio(18);
+                PauseAudio(audioNumber);
                 Invoke("GameOver", 2f);
             }
         }
 
 
+    }
+
+    private void PauseAudio(int audioNumber)
+    {
+        audio[audioNumber].Pause();
     }
 
     private void GameOver()
