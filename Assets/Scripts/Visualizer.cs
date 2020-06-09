@@ -34,7 +34,7 @@ public class Visualizer : MonoBehaviour
 
     public void GetColourForBar(Color color)
     {
-        color.a = 1f;
+        color.a = 0.5f;
         visualizerColor = color;
     }
 
