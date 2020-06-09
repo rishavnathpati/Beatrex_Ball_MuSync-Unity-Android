@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Stair
+  - Orb
   layers:
   - Default
   - TransparentFX

@@ -10,27 +10,37 @@ public class Player : MonoBehaviour
     public new AudioSource[] audio;
     public Text scoreText;
     public GameObject jumpEffect;
+    public OrbFillBar OrbFillBar;
 
-    int score, scoreCount = -1;
-    bool isDragging = false,playerUp=true;
+    int score;
+    int scoreHundreadthCount = -1;
+    int orbCount = 0;
+    int HighScore;
+    bool isDragging = false;
+    bool playerUp = true;
+    bool tellHighScore;
 
     Vector2 touchPos, playerPos, dragPos;
     Rigidbody2D rb;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         score = 0;
+        orbCount = 0;
         playerUp = true;
+        tellHighScore = true;
         rb = GetComponent<Rigidbody2D>();
-        PlaySounds(16);
-        PlaySounds(21);
-        
-    }
+        PlayerPrefs.SetInt("score", score);
 
-    private void Sleep(int sleepTime)
-    {
-        System.Threading.Thread.Sleep(sleepTime);
+        if (UnityEngine.Random.Range(0, 2) == 1)
+            PlayAudio(16);
+        else
+            PlayAudio(12);
+
+        PlayAudio(Convert.ToInt32(UnityEngine.Random.Range(21, 26)));
+        OrbFillBar.SetPowerUpBar(orbCount);
     }
 
     // Update is called once per frame
@@ -56,9 +66,50 @@ public class Player : MonoBehaviour
                 IncreaseScore();
             }
         }
+
+        if (collision.CompareTag("Orb"))
+        {
+            orbCount++;
+            OrbFillBar.SetPowerUpBar(orbCount);
+            Destroy(collision.gameObject);
+            if (orbCount % 10 == 0)
+            {
+                orbCount = 0;
+                OrbFillBar.SetPowerUpBar(orbCount);
+                GiveBoostToPlayer();
+            }
+
+        }
     }
 
-    private void PlaySounds(int soundNumber)
+    private void GiveBoostToPlayer()
+    {
+        //InvokeRepeating("IncreaseVelocity", 0, 1.5f);
+        IncreaseVelocity();
+        InvokeRepeating("ShakePlayer", 0f, 0.5f);
+        Invoke("CancelInvoke1", 1.5f);
+        score += 10;
+        scoreText.text = score.ToString();
+    }
+
+    void IncreaseVelocity()
+    {
+        rb.velocity = new Vector2(0f, 100f);
+    }
+
+    void ShakePlayer()
+    {
+        transform.position = new Vector2((UnityEngine.Random.Range(-2f, 2f)), transform.position.y);
+        //transform.position = new Vector2(1f, transform.position.y);
+    }
+
+    void CancelInvoke1()
+    {
+        CancelInvoke("ShakePlayer");
+        //CancelInvoke("IncreaseVelocity");
+    }
+
+    private void PlayAudio(int soundNumber)
     {
         audio[soundNumber].Play();
     }
@@ -66,18 +117,38 @@ public class Player : MonoBehaviour
     private void IncreaseScore()
     {
         score++;
+        jumpForce += 0.1f;
         scoreText.text = score.ToString();
-        if (score % 50 == 0)
+        if (score % 60 == 0)
         {
-            if (UnityEngine.Random.Range(0, 1) == 1)
-                PlaySounds(11);
+            if (UnityEngine.Random.Range(0, 2) == 1)
+                PlayAudio(11);
             else
-                PlaySounds(15);
+                PlayAudio(15);
+            StairSpawner.stairSpawner.stairGap += 1;
         }
         if (score % 100 == 0)
         {
-            scoreCount++;
-            PlaySounds(scoreCount);
+            scoreHundreadthCount++;
+            PlayAudio(scoreHundreadthCount);
+        }
+
+        if (PlayerPrefs.HasKey("highScore"))
+        {
+            if (score > PlayerPrefs.GetInt("highScore"))
+            {
+                PlayerPrefs.SetInt("highScore", score);
+                if(tellHighScore)
+                {
+                    PlayAudio(UnityEngine.Random.Range(13, 15));
+                    tellHighScore = false;
+                }
+                
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("highScore", score);
         }
     }
 
@@ -134,16 +205,16 @@ public class Player : MonoBehaviour
 
     void CheckPlayerPos()
     {
-        if(playerUp==true)
+        if (playerUp == true)
         {
             if (transform.position.y < Camera.main.transform.position.y - 15)
             {
                 playerUp = false;
-                PlaySounds(18);
+                PlayAudio(18);
                 Invoke("GameOver", 2f);
             }
         }
-        
+
 
     }
 
