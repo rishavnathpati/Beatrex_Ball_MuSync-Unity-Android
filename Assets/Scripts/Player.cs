@@ -15,14 +15,14 @@ public class Player : MonoBehaviour
     int score;
     int scoreHundreadthCount = -1;
     int orbCount = 0;
-    int HighScore;
+    int audioNumber;
     bool isDragging = false;
     bool playerUp = true;
     bool tellHighScore;
 
     Vector2 touchPos, playerPos, dragPos;
     Rigidbody2D rb;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
         orbCount = 0;
         playerUp = true;
         tellHighScore = true;
+
         rb = GetComponent<Rigidbody2D>();
         PlayerPrefs.SetInt("score", score);
 
@@ -39,7 +40,10 @@ public class Player : MonoBehaviour
         else
             PlayAudio(12);
 
-        PlayAudio(Convert.ToInt32(UnityEngine.Random.Range(21, 26)));
+        audioNumber= UnityEngine.Random.Range(21, 26);
+        PlayAudio(audioNumber);
+        Visualizer.instance.GetAudioSource(audio[audioNumber]);
+
         OrbFillBar.SetPowerUpBar(orbCount);
     }
 
@@ -138,12 +142,12 @@ public class Player : MonoBehaviour
             if (score > PlayerPrefs.GetInt("highScore"))
             {
                 PlayerPrefs.SetInt("highScore", score);
-                if(tellHighScore)
+                if (tellHighScore)
                 {
                     PlayAudio(UnityEngine.Random.Range(13, 15));
                     tellHighScore = false;
                 }
-                
+
             }
         }
         else

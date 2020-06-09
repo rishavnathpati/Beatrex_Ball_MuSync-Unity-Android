@@ -4,7 +4,7 @@ public class StairSpawner : MonoBehaviour
 {
     public GameObject stairPrefab, Orb;
     public int index = 0;
-    
+
 
     //[SerializeField]
     float stairWidth = 3f;
@@ -14,7 +14,7 @@ public class StairSpawner : MonoBehaviour
 
     Vector2 newPosition;
     public static StairSpawner stairSpawner = null;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -58,5 +58,6 @@ public class StairSpawner : MonoBehaviour
     {
         hue = UnityEngine.Random.Range(0f, 1f);
         Camera.main.backgroundColor = Color.HSVToRGB(hue, 0.9f, 0.9f);
+        Visualizer.instance.GetColourForBar(Color.HSVToRGB(1-hue, 0.9f, 0.9f));
     }
 }
