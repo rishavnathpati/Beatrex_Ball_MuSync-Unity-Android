@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public new AudioSource[] audio;
     public Text scoreText;
     public GameObject jumpEffect;
+    public GameObject blastEffect;
     public OrbFillBar OrbFillBar;
 
     int score;
@@ -74,25 +75,26 @@ public class Player : MonoBehaviour
         if (collision.CompareTag("Orb"))
         {
             orbCount++;
+            Destroy(Instantiate(blastEffect, transform.position, Quaternion.identity), 1f);
             OrbFillBar.SetPowerUpBar(orbCount);
             Destroy(collision.gameObject);
+
             if (orbCount % 10 == 0)
             {
                 orbCount = 0;
                 OrbFillBar.SetPowerUpBar(orbCount);
                 GiveBoostToPlayer();
             }
-
         }
     }
 
     private void GiveBoostToPlayer()
     {
-        //InvokeRepeating("IncreaseVelocity", 0, 1.5f);
         IncreaseVelocity();
         InvokeRepeating("ShakePlayer", 0f, 0.5f);
         Invoke("CancelInvoke1", 1.5f);
-        score += 10;
+        for (int i = 0; i < 10; i++)
+            IncreaseScore();
         scoreText.text = score.ToString();
     }
 
@@ -103,14 +105,14 @@ public class Player : MonoBehaviour
 
     void ShakePlayer()
     {
-        transform.position = new Vector2((UnityEngine.Random.Range(-2f, 2f)), transform.position.y);
-        //transform.position = new Vector2(1f, transform.position.y);
+        //transform.position = new Vector2((UnityEngine.Random.Range(-2f, 2f)), transform.position.y);
+        transform.position = new Vector2(2f, transform.position.y);
+        transform.position = new Vector2(-2f, transform.position.y);
     }
 
     void CancelInvoke1()
     {
         CancelInvoke("ShakePlayer");
-        //CancelInvoke("IncreaseVelocity");
     }
 
     private void PlayAudio(int soundNumber)
@@ -121,7 +123,8 @@ public class Player : MonoBehaviour
     private void IncreaseScore()
     {
         score++;
-        jumpForce += 0.1f;
+        jumpForce += 0.07f;
+        StairSpawner.stairSpawner.stairGap += .02f;
         scoreText.text = score.ToString();
         if (score % 60 == 0)
         {
@@ -129,7 +132,6 @@ public class Player : MonoBehaviour
                 PlayAudio(11);
             else
                 PlayAudio(15);
-            StairSpawner.stairSpawner.stairGap += 1;
         }
         if (score % 100 == 0)
         {
@@ -219,8 +221,6 @@ public class Player : MonoBehaviour
                 Invoke("GameOver", 2f);
             }
         }
-
-
     }
 
     private void PauseAudio(int audioNumber)

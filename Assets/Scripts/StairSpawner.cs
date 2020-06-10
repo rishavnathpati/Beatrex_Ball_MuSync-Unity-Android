@@ -24,13 +24,14 @@ public class StairSpawner : MonoBehaviour
         stairGap = 5f;
 
         for (int i = 0; i < 5; i++)
-            spawnStairs();
+            makeStair();
+        spawnStairs();
         InitColour();
     }
 
     void spawnStairs()
     {
-        InvokeRepeating("makeStair", 0, 0.5f);
+        InvokeRepeating("makeStair", 0, 0.1f);
     }
 
     public void makeStair()
@@ -38,13 +39,13 @@ public class StairSpawner : MonoBehaviour
         if (index == 0)
             newPosition = new Vector2(0, index * stairGap);
         else
-            newPosition = new Vector2(UnityEngine.Random.Range(-4.6f, 4.6f), index * 5f);
+            newPosition = new Vector2(UnityEngine.Random.Range(-4.6f, 4.6f), index * stairGap);
 
         GameObject stair = Instantiate(stairPrefab, newPosition, Quaternion.identity);
         stair.transform.SetParent(transform);
         stair.transform.localScale = new Vector2(stairWidth, stairHeight);
         index++;
-        if (UnityEngine.Random.Range(0, 5) < 1)
+        if (UnityEngine.Random.Range(0, 8) < 1)
             makeOrb(index);
     }
 
