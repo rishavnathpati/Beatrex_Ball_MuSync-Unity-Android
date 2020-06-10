@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Visualizer : MonoBehaviour
+public class VisualiserMenu : MonoBehaviour
 {
     public VisualizerObjectScript[] visualizerObjects;
 
@@ -10,9 +10,9 @@ public class Visualizer : MonoBehaviour
     float maxHeight = 625.0f;
     float updateSensitivity = 1.0f;
     int visualizerSimples = 64;
-    AudioSource audioSource;
-    public static Visualizer instance;
-    Color visualizerColor;
+    public AudioSource audioSource;
+    public static VisualiserMenu instance;
+    public Color visualizerColor;
 
     private void Awake()
     {
@@ -26,18 +26,6 @@ public class Visualizer : MonoBehaviour
         visualizerObjects = GetComponentsInChildren<VisualizerObjectScript>();
     }
 
-    public void GetAudioSource(AudioSource source)
-    {
-        audioSource = source;
-    }
-
-    public void GetColourForBar(Color color)
-    {
-        color.a = 0.5f;
-        visualizerColor = color;
-    }
-
-    // Update is called once per frame
     [System.Obsolete]
     void FixedUpdate()
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -40,7 +39,7 @@ public class Player : MonoBehaviour
         else
             PlayAudio(12);
 
-        audioNumber= UnityEngine.Random.Range(21, 26);
+        audioNumber = UnityEngine.Random.Range(21, 26);
         PlayAudio(audioNumber);
         Visualizer.instance.GetAudioSource(audio[audioNumber]);
 

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 
 namespace TMPro.Examples
@@ -9,7 +8,7 @@ namespace TMPro.Examples
     {
         // Since this script is used for debugging, we exclude it from builds.
         // TODO: Rework this script to make it into an editor utility.
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         public bool ShowCharacters;
         public bool ShowWords;
         public bool ShowLinks;
@@ -467,7 +466,7 @@ namespace TMPro.Examples
         void DrawBounds()
         {
             Bounds meshBounds = m_TextComponent.bounds;
-            
+
             // Get Bottom Left and Top Right position of each word
             Vector3 bottomLeft = m_TextComponent.transform.position + (meshBounds.center - meshBounds.extents);
             Vector3 topRight = m_TextComponent.transform.position + (meshBounds.center + meshBounds.extents);
