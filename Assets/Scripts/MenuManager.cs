@@ -3,10 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    public GameObject mainMenu;
+    public GameObject loadingScreen;
     public void PlayButton()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadSceneAsync(1);
         Time.timeScale = 1;
+        mainMenu.SetActive(false);
+        loadingScreen.SetActive(true);
     }
 
     public void QuitButton()

@@ -208,13 +208,13 @@ public class Player : MonoBehaviour
             dragPos = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
             transform.position = new Vector2(playerPos.x + (dragPos.x - touchPos.x), transform.position.y);
 
-            if (transform.position.x < -5f)
+            if (transform.position.x < -5.5f)
             {
-                transform.position = new Vector2(-5f, transform.position.y);
+                transform.position = new Vector2(-5.5f, transform.position.y);
             }
-            if (transform.position.x > 5f)
+            if (transform.position.x > 5.5f)
             {
-                transform.position = new Vector2(5f, transform.position.y);
+                transform.position = new Vector2(5.5f, transform.position.y);
             }
         }
     }
