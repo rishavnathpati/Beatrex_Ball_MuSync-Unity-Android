@@ -2,7 +2,9 @@
 
 public class StairSpawner : MonoBehaviour
 {
-    public GameObject stairPrefab, Orb;
+    public GameObject stairPrefab;
+    public GameObject Orb;
+    public GameObject spikeyStair;
     public int index = 0;
 
 
@@ -10,6 +12,9 @@ public class StairSpawner : MonoBehaviour
     float stairWidth = 3f;
     float stairHeight = 0.6f;
     float hue;
+    bool spikeyIsRecent = false;
+    int score;
+    GameObject stair;
     public float stairGap;
 
     Vector2 newPosition;
@@ -19,6 +24,7 @@ public class StairSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spikeyIsRecent = false;
         if (stairSpawner == null)
             stairSpawner = this;
         stairGap = 5f;
@@ -31,28 +37,52 @@ public class StairSpawner : MonoBehaviour
 
     void spawnStairs()
     {
-        InvokeRepeating("makeStair", 0, 0.1f);
+        InvokeRepeating("makeStair", 0, 0.2f);
     }
+
+    public void SetScore(int s)
+    {
+        score = s;
+    }
+
+    public void SetStairWidth(float w)
+    {
+        stairWidth-=w;
+    }
+
 
     public void makeStair()
     {
         if (index == 0)
-            newPosition = new Vector2(0, index * stairGap);
+            newPosition = new Vector2(0, 5);
         else
             newPosition = new Vector2(UnityEngine.Random.Range(-4.6f, 4.6f), index * stairGap);
 
-        GameObject stair = Instantiate(stairPrefab, newPosition, Quaternion.identity);
+        if (UnityEngine.Random.Range(1, 10) <=2 && score > 10 && spikeyIsRecent==false)
+        {
+            stair = Instantiate(spikeyStair, newPosition, Quaternion.identity);
+            spikeyIsRecent = true;
+        }
+            
+        else
+        {
+            stair = Instantiate(stairPrefab, newPosition, Quaternion.identity);
+            spikeyIsRecent = false; ;
+        }
+            
+
         stair.transform.SetParent(transform);
         stair.transform.localScale = new Vector2(stairWidth, stairHeight);
-        index++;
+   
         if (UnityEngine.Random.Range(0, 8) < 1)
             makeOrb(index);
+        index++;
     }
 
+    
     public void makeOrb(int index)
     {
         GameObject orb = Instantiate(Orb, new Vector2(UnityEngine.Random.Range(-3f, 3f), index * 3.5f), Quaternion.identity);
-
     }
 
     public void InitColour()

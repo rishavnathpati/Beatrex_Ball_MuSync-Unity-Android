@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Stair
   - Orb
+  - SpikeyStair
   layers:
   - Default
   - TransparentFX

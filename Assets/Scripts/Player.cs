@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     bool isDragging = false;
     bool playerUp = true;
     bool tellHighScore;
+    bool isBoosted;
 
     Vector2 touchPos, playerPos, dragPos;
     Rigidbody2D rb;
@@ -31,6 +32,8 @@ public class Player : MonoBehaviour
         orbCount = 0;
         playerUp = true;
         tellHighScore = true;
+        isBoosted = false;
+        Time.timeScale = 1f;
 
         rb = GetComponent<Rigidbody2D>();
         PlayerPrefs.SetInt("score", score);
@@ -72,6 +75,14 @@ public class Player : MonoBehaviour
             }
         }
 
+        if(collision.CompareTag("SpikeyStair") && isBoosted==false)
+        {
+            playerUp = false;
+            PlayAudio(18);
+            PauseAudio(audioNumber);
+            Invoke("GameOver", 1.5f);
+        }
+
         if (collision.CompareTag("Orb"))
         {
             orbCount++;
@@ -90,6 +101,7 @@ public class Player : MonoBehaviour
 
     private void GiveBoostToPlayer()
     {
+        isBoosted = true;
         IncreaseVelocity();
         InvokeRepeating("ShakePlayer", 0f, 0.5f);
         Invoke("CancelInvoke1", 1.5f);
@@ -105,13 +117,12 @@ public class Player : MonoBehaviour
 
     void ShakePlayer()
     {
-        //transform.position = new Vector2((UnityEngine.Random.Range(-2f, 2f)), transform.position.y);
-        transform.position = new Vector2(2f, transform.position.y);
-        transform.position = new Vector2(-2f, transform.position.y);
+        transform.position = new Vector2((UnityEngine.Random.Range(-2f, 2f)), transform.position.y);
     }
 
     void CancelInvoke1()
     {
+        isBoosted = false;
         CancelInvoke("ShakePlayer");
     }
 
@@ -128,6 +139,8 @@ public class Player : MonoBehaviour
         scoreText.text = score.ToString();
         if (score % 60 == 0)
         {
+            StairSpawner.stairSpawner.SetStairWidth(0.3f);
+            Time.timeScale = 1.2f;
             if (UnityEngine.Random.Range(0, 2) == 1)
                 PlayAudio(11);
             else
@@ -156,6 +169,8 @@ public class Player : MonoBehaviour
         {
             PlayerPrefs.SetInt("highScore", score);
         }
+
+        StairSpawner.stairSpawner.SetScore(score);
     }
 
     private void JumpEffect()
@@ -218,7 +233,7 @@ public class Player : MonoBehaviour
                 playerUp = false;
                 PlayAudio(18);
                 PauseAudio(audioNumber);
-                Invoke("GameOver", 2f);
+                Invoke("GameOver", 1.5f);
             }
         }
     }
