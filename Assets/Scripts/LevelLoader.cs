@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,7 +19,7 @@ public class LevelLoader : MonoBehaviour
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
         loadingScreen.SetActive(true);
-        while(!operation.isDone)
+        while (!operation.isDone)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
             //Debug.Log(operation.progress);

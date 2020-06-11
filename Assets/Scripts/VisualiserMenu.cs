@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class VisualiserMenu : MonoBehaviour
 {
@@ -24,10 +26,12 @@ public class VisualiserMenu : MonoBehaviour
     void Start()
     {
         visualizerObjects = GetComponentsInChildren<VisualizerObjectScript>();
+
     }
 
     [System.Obsolete]
-    void FixedUpdate()
+    // Update is called once per frame
+    void Update()
     {
         float[] spectrumData = audioSource.GetSpectrumData(visualizerSimples, 0, FFTWindow.Rectangular);
 
@@ -40,5 +44,6 @@ public class VisualiserMenu : MonoBehaviour
             visualizerObjects[i].GetComponent<RectTransform>().sizeDelta = newSize;
             visualizerObjects[i].GetComponent<Image>().color = visualizerColor;
         }
+
     }
 }
