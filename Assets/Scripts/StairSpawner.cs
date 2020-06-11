@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StairSpawner : MonoBehaviour
 {
@@ -88,7 +89,12 @@ public class StairSpawner : MonoBehaviour
     public void InitColour()
     {
         hue = UnityEngine.Random.Range(0f, 1f);
-        Camera.main.backgroundColor = Color.HSVToRGB(hue, 0.9f, 0.9f);
+        if(SceneManager.GetActiveScene().buildIndex==2)
+        {
+            Camera.main.backgroundColor = Color.HSVToRGB(hue, 0.9f, 0.2f);
+        }
+        else
+             Camera.main.backgroundColor = Color.HSVToRGB(hue, 0.9f, 0.9f);
         Visualizer.instance.GetColourForBar(Color.HSVToRGB(1 - hue, 0.9f, 0.9f));
     }
 }
