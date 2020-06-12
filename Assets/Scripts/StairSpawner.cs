@@ -10,7 +10,7 @@ public class StairSpawner : MonoBehaviour
 
 
     //[SerializeField]
-    float stairWidth = 3f;
+    float stairWidth = 4f;
     float stairHeight = 0.6f;
     float hue;
     bool spikeyIsRecent = false;
@@ -92,7 +92,7 @@ public class StairSpawner : MonoBehaviour
     public void makeOrb(int index)
     {
         Instantiate(Orb, new Vector2(UnityEngine.Random.Range(-3f, 3f), index * 3.5f), Quaternion.identity);
-        if (UnityEngine.Random.Range(1, 10) <= 1 && score > 10)
+        if (UnityEngine.Random.Range(1, 20) == 1 && score > 10)
             Instantiate(Vortex, new Vector2(UnityEngine.Random.Range(-4f, 4f), index * 3.5f), Quaternion.identity);
     }
 

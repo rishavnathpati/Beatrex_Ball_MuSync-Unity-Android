@@ -68,37 +68,18 @@ public class Player : MonoBehaviour
         CheckPlayerPos();
     }
 
-    /*private void StartGame()
-    {
-        if (UnityEngine.Random.Range(0, 2) == 1)
-            PlayAudio(16);
-        else
-            PlayAudio(12);
-
-        audioNumber = UnityEngine.Random.Range(21, 26);
-        PlayAudio(audioNumber);
-        Visualizer.instance.GetAudioSource(audio[audioNumber]);
-        if (Input.GetMouseButtonDown(0))
-        {
-            OrbFillBar.SetPowerUpBar(orbCount);
-            rb.useGravity = true;
-            gameHasStarted = true;
-        }
-        
-    }*/
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (gameHasStarted)
-        {
+        //if (gameHasStarted)
+        //{
             if (collision.CompareTag("Stair"))
             {
                 if (rb.velocity.y <= 0f)
                 {
+                    JumpEffect();
                     rb.velocity = new Vector2(0, jumpForce);
                     DestroyAndMakeStair(collision);
-                    StairSpawner.instance.InitColour(value);
-                    JumpEffect();
+                    StairSpawner.instance.InitColour(value);                  
                     IncreaseScore();
                 }
             }
@@ -133,7 +114,7 @@ public class Player : MonoBehaviour
                 GlitchModeOn();
                 StairSpawner.instance.SpecialStairs(transform.position.y);
             }
-        }
+        //}
 
     }
 
@@ -175,10 +156,11 @@ public class Player : MonoBehaviour
         jumpForce += 0.07f;
         StairSpawner.instance.stairGap += .02f;
         scoreText.text = score.ToString();
+
         if (score % 60 == 0)
         {
             StairSpawner.instance.SetStairWidth(0.3f);
-            Time.timeScale = 1.2f;
+            Time.timeScale += 0.1f;
             if (UnityEngine.Random.Range(0, 2) == 1)
                 PlayAudio(11);
             else
