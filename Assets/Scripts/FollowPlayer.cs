@@ -8,7 +8,6 @@ public class FollowPlayer : MonoBehaviour
 
     Vector2 velocity = Vector2.zero;
 
-    // Update is called once per frame
     void Update()
     {
         Vector2 targetPos = player.transform.TransformPoint(new Vector3(0, yOffset));

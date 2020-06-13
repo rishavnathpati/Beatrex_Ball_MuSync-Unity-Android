@@ -41,8 +41,6 @@ public class Player : MonoBehaviour
             instance = this;
     }
 
-
-    // Start is called before the first frame update
     void Start()
     {
         score = 0;
@@ -70,7 +68,6 @@ public class Player : MonoBehaviour
         OrbFillBar.SetPowerUpBar(orbCount);
     }
 
-    // Update is called once per frame
     void Update()
     {
         AddGravity();
@@ -180,7 +177,6 @@ public class Player : MonoBehaviour
             {
                 PlayerPrefs.SetInt("highScore", score);
                 highScore.text = PlayerPrefs.GetInt("highScore").ToString();
-                //Debug.LogWarning("High Score" + PlayerPrefs.GetInt("highScore"));
 
                 if (tellHighScore)
                 {

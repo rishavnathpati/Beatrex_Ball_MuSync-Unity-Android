@@ -7,10 +7,6 @@ public class MenuManager : MonoBehaviour
     public GameObject loadingScreen;
     public static bool gamePaused;
 
-    private void Start()
-    {
-        //gamePaused = true;
-    }
     public void PlayButton()
     {
         SceneManager.LoadSceneAsync(1);

@@ -11,8 +11,6 @@ public class StairSpawner : MonoBehaviour
     int index = 0;
     int score;
     float stairGap;
-    //float stairWidth;
-    //float stairHeight;
     float hue;
     bool spikeyIsRecent;
 
@@ -20,8 +18,6 @@ public class StairSpawner : MonoBehaviour
     GameObject stair;
     public static StairSpawner instance = null;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         spikeyIsRecent = false;
@@ -59,21 +55,15 @@ public class StairSpawner : MonoBehaviour
             else
                 stair = Instantiate(spikeyStairR, newPosition, Quaternion.identity);
             spikeyIsRecent = true;
-            //stairWidth = 1f;
-            //stairHeight = 1f;
         }
 
         else
         {
             stair = Instantiate(stairPrefab, newPosition, Quaternion.identity);
             spikeyIsRecent = false;
-            //stairWidth = 4f;
-            //stairHeight = 0.6f;
         }
 
-
         stair.transform.SetParent(transform);
-        //stair.transform.localScale = new Vector2(stairWidth, stairHeight);
         stair.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(Random.Range(0f, 0.9f), 1f, 0.15f);
 
         if (UnityEngine.Random.Range(0, 8) < 1)
@@ -87,7 +77,6 @@ public class StairSpawner : MonoBehaviour
         newPosition = new Vector2(UnityEngine.Random.Range(-4.6f, 4.6f), pos);
         stair = Instantiate(stairPrefab, newPosition, Quaternion.identity);
         stair.transform.SetParent(transform);
-        //stair.transform.localScale = new Vector2(stairWidth, stairHeight);
     }
 
 
