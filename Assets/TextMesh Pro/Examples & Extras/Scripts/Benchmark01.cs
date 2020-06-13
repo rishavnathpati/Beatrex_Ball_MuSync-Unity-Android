@@ -14,7 +14,7 @@ namespace TMPro.Examples
         public Font TextMeshFont;
 
         private TextMeshPro m_textMeshPro;
-        private TextContainer m_textContainer;
+        private readonly TextContainer m_textContainer;
         private TextMesh m_textMesh;
 
         private const string label01 = "The <#0050FF>count is: </color>{0}";
@@ -26,9 +26,7 @@ namespace TMPro.Examples
         private Material m_material01;
         private Material m_material02;
 
-
-
-        IEnumerator Start()
+        private IEnumerator Start()
         {
 
 
@@ -41,7 +39,9 @@ namespace TMPro.Examples
                 //m_textMeshPro.anchorDampening = true;
 
                 if (TMProFont != null)
+                {
                     m_textMeshPro.font = TMProFont;
+                }
 
                 //m_textMeshPro.font = Resources.Load("Fonts & Materials/Anton SDF", typeof(TextMeshProFont)) as TextMeshProFont; // Make sure the Anton SDF exists before calling this...
                 //m_textMeshPro.fontSharedMaterial = Resources.Load("Fonts & Materials/Anton SDF", typeof(Material)) as Material; // Same as above make sure this material exists.
@@ -93,13 +93,14 @@ namespace TMPro.Examples
                 {
                     m_textMeshPro.SetText(label01, i % 1000);
                     if (i % 1000 == 999)
+                    {
                         m_textMeshPro.fontSharedMaterial = m_textMeshPro.fontSharedMaterial == m_material01 ? m_textMeshPro.fontSharedMaterial = m_material02 : m_textMeshPro.fontSharedMaterial = m_material01;
-
-
-
+                    }
                 }
                 else if (BenchmarkType == 1)
+                {
                     m_textMesh.text = label02 + (i % 1000).ToString();
+                }
 
                 yield return null;
             }

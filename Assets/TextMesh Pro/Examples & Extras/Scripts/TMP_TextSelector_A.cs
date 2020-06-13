@@ -16,7 +16,7 @@ namespace TMPro.Examples
         private int m_lastCharIndex = -1;
         private int m_lastWordIndex = -1;
 
-        void Awake()
+        private void Awake()
         {
             m_TextMeshPro = gameObject.GetComponent<TextMeshPro>();
             m_Camera = Camera.main;
@@ -25,8 +25,7 @@ namespace TMPro.Examples
             m_TextMeshPro.ForceMeshUpdate();
         }
 
-
-        void LateUpdate()
+        private void LateUpdate()
         {
             m_isHoveringObject = false;
 
@@ -84,9 +83,8 @@ namespace TMPro.Examples
                     // The following provides an example of how to access the link properties.
                     //Debug.Log("Link ID: \"" + linkInfo.GetLinkID() + "\"   Link Text: \"" + linkInfo.GetLinkText() + "\""); // Example of how to retrieve the Link ID and Link Text.
 
-                    Vector3 worldPointInRectangle;
 
-                    RectTransformUtility.ScreenPointToWorldPointInRectangle(m_TextMeshPro.rectTransform, Input.mousePosition, m_Camera, out worldPointInRectangle);
+                    RectTransformUtility.ScreenPointToWorldPointInRectangle(m_TextMeshPro.rectTransform, Input.mousePosition, m_Camera, out Vector3 worldPointInRectangle);
 
                     switch (linkInfo.GetLinkID())
                     {

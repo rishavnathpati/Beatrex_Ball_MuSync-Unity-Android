@@ -4,12 +4,10 @@ using UnityEngine.UI;
 public class VisualiserMenu : MonoBehaviour
 {
     public VisualizerObjectScript[] visualizerObjects;
-
-
-    float minHeight = 25.0f;
-    float maxHeight = 625.0f;
-    float updateSensitivity = 1.0f;
-    int visualizerSimples = 64;
+    private readonly float minHeight = 25.0f;
+    private readonly float maxHeight = 625.0f;
+    private readonly float updateSensitivity = 1.0f;
+    private readonly int visualizerSimples = 64;
     public AudioSource audioSource;
     public static VisualiserMenu instance;
     public Color visualizerColor;
@@ -17,16 +15,18 @@ public class VisualiserMenu : MonoBehaviour
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+        }
     }
 
-    void Start()
+    private void Start()
     {
         visualizerObjects = GetComponentsInChildren<VisualizerObjectScript>();
     }
 
     [System.Obsolete]
-    void Update()
+    private void Update()
     {
         float[] spectrumData = audioSource.GetSpectrumData(visualizerSimples, 0, FFTWindow.Rectangular);
 

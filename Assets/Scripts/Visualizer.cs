@@ -5,22 +5,22 @@ public class Visualizer : MonoBehaviour
 {
     public VisualizerObjectScript[] visualizerObjects;
     public static Visualizer instance;
-
-    readonly float minHeight = 25.0f;
-    readonly float maxHeight = 625.0f;
-    readonly float updateSensitivity = 1.0f;
-    readonly int visualizerSimples = 64;
-
-    AudioSource audioSource;
-    Color visualizerColor;
+    private readonly float minHeight = 25.0f;
+    private readonly float maxHeight = 625.0f;
+    private readonly float updateSensitivity = 1.0f;
+    private readonly int visualizerSimples = 64;
+    private AudioSource audioSource;
+    private Color visualizerColor;
 
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+        }
     }
 
-    void Start()
+    private void Start()
     {
         visualizerObjects = GetComponentsInChildren<VisualizerObjectScript>();
     }
@@ -37,7 +37,7 @@ public class Visualizer : MonoBehaviour
     }
 
     [System.Obsolete]
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         float[] spectrumData = audioSource.GetSpectrumData(visualizerSimples, 0, FFTWindow.Rectangular);
 

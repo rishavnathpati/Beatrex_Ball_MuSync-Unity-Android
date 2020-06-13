@@ -25,18 +25,21 @@ namespace TMPro.Examples
         [SerializeField]
         private Transform m_Transform;
 
-
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             if (m_TextComponent == null)
             {
                 m_TextComponent = gameObject.GetComponent<TMP_Text>();
 
                 if (m_TextComponent == null)
+                {
                     return;
+                }
 
                 if (m_Transform == null)
+                {
                     m_Transform = gameObject.GetComponent<Transform>();
+                }
             }
 
             // Update Text Statistics
@@ -49,41 +52,53 @@ namespace TMPro.Examples
             // Draw Quads around each of the Characters
             #region Draw Characters
             if (ShowCharacters)
+            {
                 DrawCharactersBounds();
+            }
             #endregion
 
 
             // Draw Quads around each of the words
             #region Draw Words
             if (ShowWords)
+            {
                 DrawWordBounds();
+            }
             #endregion
 
 
             // Draw Quads around each of the words
             #region Draw Links
             if (ShowLinks)
+            {
                 DrawLinkBounds();
+            }
             #endregion
 
 
             // Draw Quads around each line
             #region Draw Lines
             if (ShowLines)
+            {
                 DrawLineBounds();
+            }
             #endregion
 
 
             // Draw Quad around the bounds of the text
             #region Draw Bounds
             if (ShowMeshBounds)
+            {
                 DrawBounds();
+            }
             #endregion
 
             // Draw Quad around the rendered region of the text.
             #region Draw Text Bounds
             if (ShowTextBounds)
+            {
                 DrawTextBounds();
+            }
             #endregion
         }
 
@@ -92,7 +107,7 @@ namespace TMPro.Examples
         /// Method to draw a rectangle around each character.
         /// </summary>
         /// <param name="text"></param>
-        void DrawCharactersBounds()
+        private void DrawCharactersBounds()
         {
             TMP_TextInfo textInfo = m_TextComponent.textInfo;
 
@@ -105,7 +120,10 @@ namespace TMPro.Examples
                                           cInfo.lineNumber >= m_TextComponent.maxVisibleLines ||
                                           (m_TextComponent.overflowMode == TextOverflowModes.Page && cInfo.pageNumber + 1 != m_TextComponent.pageToDisplay) ? false : true;
 
-                if (!isCharacterVisible) continue;
+                if (!isCharacterVisible)
+                {
+                    continue;
+                }
 
                 // Get Bottom Left and Top Right position of the current character
                 Vector3 bottomLeft = m_Transform.TransformPoint(cInfo.bottomLeft);
@@ -183,7 +201,7 @@ namespace TMPro.Examples
         /// Method to draw rectangles around each word of the text.
         /// </summary>
         /// <param name="text"></param>
-        void DrawWordBounds()
+        private void DrawWordBounds()
         {
             TMP_TextInfo textInfo = m_TextComponent.textInfo;
 
@@ -289,7 +307,7 @@ namespace TMPro.Examples
         /// Draw rectangle around each of the links contained in the text.
         /// </summary>
         /// <param name="text"></param>
-        void DrawLinkBounds()
+        private void DrawLinkBounds()
         {
             TMP_TextInfo textInfo = m_TextComponent.textInfo;
 
@@ -393,7 +411,7 @@ namespace TMPro.Examples
         /// Draw Rectangles around each lines of the text.
         /// </summary>
         /// <param name="text"></param>
-        void DrawLineBounds()
+        private void DrawLineBounds()
         {
             TMP_TextInfo textInfo = m_TextComponent.textInfo;
 
@@ -405,7 +423,10 @@ namespace TMPro.Examples
                                       i > m_TextComponent.maxVisibleLines ||
                                      (m_TextComponent.overflowMode == TextOverflowModes.Page && textInfo.characterInfo[lineInfo.firstCharacterIndex].pageNumber + 1 != m_TextComponent.pageToDisplay) ? false : true;
 
-                if (!isLineVisible) continue;
+                if (!isLineVisible)
+                {
+                    continue;
+                }
 
                 //if (!ShowLinesOnlyVisibleCharacters)
                 //{
@@ -463,7 +484,7 @@ namespace TMPro.Examples
         /// <summary>
         /// Draw Rectangle around the bounds of the text object.
         /// </summary>
-        void DrawBounds()
+        private void DrawBounds()
         {
             Bounds meshBounds = m_TextComponent.bounds;
 
@@ -474,8 +495,7 @@ namespace TMPro.Examples
             DrawRectangle(bottomLeft, topRight, new Color(1, 0.5f, 0));
         }
 
-
-        void DrawTextBounds()
+        private void DrawTextBounds()
         {
             Bounds textBounds = m_TextComponent.textBounds;
 
@@ -487,7 +507,7 @@ namespace TMPro.Examples
 
 
         // Draw Rectangles
-        void DrawRectangle(Vector3 BL, Vector3 TR, Color color)
+        private void DrawRectangle(Vector3 BL, Vector3 TR, Color color)
         {
             Gizmos.color = color;
 
@@ -499,7 +519,7 @@ namespace TMPro.Examples
 
 
         // Draw Rectangles
-        void DrawRectangle(Vector3 bl, Vector3 tl, Vector3 tr, Vector3 br, Color color)
+        private void DrawRectangle(Vector3 bl, Vector3 tl, Vector3 tr, Vector3 br, Color color)
         {
             Gizmos.color = color;
 
@@ -511,9 +531,9 @@ namespace TMPro.Examples
 
 
         // Draw Rectangles
-        void DrawDottedRectangle(Vector3 bl, Vector3 tl, Vector3 tr, Vector3 br, Color color)
+        private void DrawDottedRectangle(Vector3 bl, Vector3 tl, Vector3 tr, Vector3 br, Color color)
         {
-            var cam = Camera.current;
+            Camera cam = Camera.current;
             float dotSpacing = (cam.WorldToScreenPoint(br).x - cam.WorldToScreenPoint(bl).x) / 75f;
             UnityEditor.Handles.color = color;
 

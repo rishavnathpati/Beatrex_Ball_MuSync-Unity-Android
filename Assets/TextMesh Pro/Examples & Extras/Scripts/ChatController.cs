@@ -12,25 +12,24 @@ public class ChatController : MonoBehaviour
 
     public Scrollbar ChatScrollbar;
 
-    void OnEnable()
+    private void OnEnable()
     {
         TMP_ChatInput.onSubmit.AddListener(AddToChatOutput);
 
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         TMP_ChatInput.onSubmit.RemoveListener(AddToChatOutput);
 
     }
 
-
-    void AddToChatOutput(string newText)
+    private void AddToChatOutput(string newText)
     {
         // Clear Input Field
         TMP_ChatInput.text = string.Empty;
 
-        var timeNow = System.DateTime.Now;
+        System.DateTime timeNow = System.DateTime.Now;
 
         TMP_ChatOutput.text += "[<#FFFF80>" + timeNow.Hour.ToString("d2") + ":" + timeNow.Minute.ToString("d2") + ":" + timeNow.Second.ToString("d2") + "</color>] " + newText + "\n";
 

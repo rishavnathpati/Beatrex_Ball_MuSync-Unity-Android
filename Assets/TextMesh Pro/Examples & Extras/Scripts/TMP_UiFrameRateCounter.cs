@@ -22,17 +22,19 @@ namespace TMPro.Examples
 
         private FpsCounterAnchorPositions last_AnchorPosition;
 
-        void Awake()
+        private void Awake()
         {
             if (!enabled)
+            {
                 return;
+            }
 
             Application.targetFrameRate = 1000;
 
             GameObject frameCounter = new GameObject("Frame Counter");
             m_frameCounter_transform = frameCounter.AddComponent<RectTransform>();
 
-            m_frameCounter_transform.SetParent(this.transform, false);
+            m_frameCounter_transform.SetParent(transform, false);
 
             m_TextMeshPro = frameCounter.AddComponent<TextMeshProUGUI>();
             m_TextMeshPro.font = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
@@ -47,18 +49,18 @@ namespace TMPro.Examples
             last_AnchorPosition = AnchorPosition;
         }
 
-
-        void Start()
+        private void Start()
         {
             m_LastInterval = Time.realtimeSinceStartup;
             m_Frames = 0;
         }
 
-
-        void Update()
+        private void Update()
         {
             if (AnchorPosition != last_AnchorPosition)
+            {
                 Set_FrameCounter_Position(AnchorPosition);
+            }
 
             last_AnchorPosition = AnchorPosition;
 
@@ -72,11 +74,17 @@ namespace TMPro.Examples
                 float ms = 1000.0f / Mathf.Max(fps, 0.00001f);
 
                 if (fps < 30)
+                {
                     htmlColorTag = "<color=yellow>";
+                }
                 else if (fps < 10)
+                {
                     htmlColorTag = "<color=red>";
+                }
                 else
+                {
                     htmlColorTag = "<color=green>";
+                }
 
                 m_TextMeshPro.SetText(htmlColorTag + fpsLabel, fps, ms);
 
@@ -85,8 +93,7 @@ namespace TMPro.Examples
             }
         }
 
-
-        void Set_FrameCounter_Position(FpsCounterAnchorPositions anchor_position)
+        private void Set_FrameCounter_Position(FpsCounterAnchorPositions anchor_position)
         {
             switch (anchor_position)
             {

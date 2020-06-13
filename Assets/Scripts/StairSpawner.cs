@@ -7,30 +7,34 @@ public class StairSpawner : MonoBehaviour
     public GameObject Vortex;
     public GameObject spikeyStairL;
     public GameObject spikeyStairR;
-
-    int index = 0;
-    int score;
-    float stairGap;
-    float hue;
-    bool spikeyIsRecent;
-
-    Vector2 newPosition;
-    GameObject stair;
+    private int index = 0;
+    private int score;
+    private float stairGap;
+    private float hue;
+    private bool spikeyIsRecent;
+    private Vector2 newPosition;
+    private GameObject stair;
     public static StairSpawner instance = null;
 
-    void Start()
+    private void Start()
     {
         spikeyIsRecent = false;
         if (instance == null)
+        {
             instance = this;
+        }
+
         stairGap = 5f;
         for (int i = 0; i <= 5; i++)
+        {
             MakeStair();
+        }
+
         SpawnStairs();
         InitColour(0.9f);
     }
 
-    void SpawnStairs()
+    private void SpawnStairs()
     {
         InvokeRepeating("MakeStair", 0, 0.3f);
     }
@@ -44,16 +48,25 @@ public class StairSpawner : MonoBehaviour
     public void MakeStair()
     {
         if (index == 0)
+        {
             newPosition = new Vector2(0, 5);
+        }
         else
+        {
             newPosition = new Vector2(UnityEngine.Random.Range(-4.6f, 4.6f), index * stairGap);
+        }
 
         if (UnityEngine.Random.Range(1, 10) <= 2 && score > 10 && spikeyIsRecent == false)
         {
             if (index % 2 == 0)
+            {
                 stair = Instantiate(spikeyStairL, newPosition, Quaternion.identity);
+            }
             else
+            {
                 stair = Instantiate(spikeyStairR, newPosition, Quaternion.identity);
+            }
+
             spikeyIsRecent = true;
         }
 
@@ -67,7 +80,10 @@ public class StairSpawner : MonoBehaviour
         stair.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(Random.Range(0f, 0.9f), 1f, 0.15f);
 
         if (UnityEngine.Random.Range(0, 8) < 1)
+        {
             MakeOrb(index);
+        }
+
         index++;
         stairGap += 0.02f;
     }
@@ -84,7 +100,9 @@ public class StairSpawner : MonoBehaviour
     {
         Instantiate(Orb, new Vector2(UnityEngine.Random.Range(-3f, 3f), index * 3.5f), Quaternion.identity);
         if (UnityEngine.Random.Range(1, 20) == 1 && score > 40)
+        {
             Instantiate(Vortex, new Vector2(UnityEngine.Random.Range(-4f, 4f), index * 3.5f), Quaternion.identity);
+        }
     }
 
     public void InitColour(float value)

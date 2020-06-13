@@ -5,10 +5,9 @@ public class FollowPlayer : MonoBehaviour
     public GameObject player;
     public float smoothTime = 0.3f;
     public float yOffset;
+    private Vector2 velocity = Vector2.zero;
 
-    Vector2 velocity = Vector2.zero;
-
-    void Update()
+    private void Update()
     {
         Vector2 targetPos = player.transform.TransformPoint(new Vector3(0, yOffset));
 

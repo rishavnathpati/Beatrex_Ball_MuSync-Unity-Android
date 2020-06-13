@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -19,29 +18,29 @@ public class Player : MonoBehaviour
     public GameObject glitchCam, normalCam;
     public GameObject GameOverPanel;
     public GameObject UIPanel;
-
-    int score;
-    int scoreHundreadthCount = -1;
-    int orbCount = 0;
-    int audioNumber;
-    int scoreValue;
-    int lifeCount;
-    bool isDragging = false;
-    bool playerHasCollidedWithSpike;
-    bool tellHighScore;
-    bool isBoosted;
-
-    Vector2 touchPos, playerPos, dragPos;
-    Rigidbody2D rb;
+    private int score;
+    private int scoreHundreadthCount = -1;
+    private int orbCount = 0;
+    private int audioNumber;
+    private int scoreValue;
+    private readonly int lifeCount;
+    private bool isDragging = false;
+    private bool playerHasCollidedWithSpike;
+    private bool tellHighScore;
+    private bool isBoosted;
+    private Vector2 touchPos, playerPos, dragPos;
+    private Rigidbody2D rb;
     public static Player instance;
 
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+        }
     }
 
-    void Start()
+    private void Start()
     {
         score = 0;
         orbCount = 0;
@@ -59,16 +58,21 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         if (UnityEngine.Random.Range(0, 2) == 1)
+        {
             PlayAudio(16);
+        }
         else
+        {
             PlayAudio(12);
+        }
+
         audioNumber = UnityEngine.Random.Range(21, 26);
         PlayAudio(audioNumber);
         Visualizer.instance.GetAudioSource(audio[audioNumber]);
         OrbFillBar.SetPowerUpBar(orbCount);
     }
 
-    void Update()
+    private void Update()
     {
         AddGravity();
         GetInput();
@@ -130,20 +134,22 @@ public class Player : MonoBehaviour
         InvokeRepeating("ShakePlayer", 0f, 0.5f);
         Invoke("CancelInvoke1", 1.5f);
         for (int i = 0; i < 10; i++)
+        {
             IncreaseScore();
+        }
     }
 
-    void IncreaseVelocity()
+    private void IncreaseVelocity()
     {
         rb.velocity = new Vector2(0f, 100f);
     }
 
-    void ShakePlayer()
+    private void ShakePlayer()
     {
         transform.position = new Vector2((UnityEngine.Random.Range(-2f, 2f)), transform.position.y);
     }
 
-    void CancelInvoke1()
+    private void CancelInvoke1()
     {
         isBoosted = false;
         CancelInvoke("ShakePlayer");
@@ -161,9 +167,13 @@ public class Player : MonoBehaviour
             timeScaleValue += 0.08f;
             Time.timeScale = timeScaleValue;
             if (UnityEngine.Random.Range(0, 2) == 1)
+            {
                 PlayAudio(11);
+            }
             else
+            {
                 PlayAudio(15);
+            }
         }
         if (score % 100 == 0)
         {
@@ -214,7 +224,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void MovePlayer()
+    private void MovePlayer()
     {
         if (isDragging)
         {
@@ -232,13 +242,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    void AddGravity()
+    private void AddGravity()
     {
         if (!MenuManager.gamePaused)
+        {
             rb.velocity = new Vector2(0, rb.velocity.y - .4f);
+        }
     }
 
-    void CheckPlayerPos()
+    private void CheckPlayerPos()
     {
         if (!playerHasCollidedWithSpike)
         {

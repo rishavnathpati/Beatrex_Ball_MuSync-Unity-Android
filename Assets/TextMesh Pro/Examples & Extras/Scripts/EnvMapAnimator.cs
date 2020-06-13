@@ -10,8 +10,7 @@ public class EnvMapAnimator : MonoBehaviour
     private TMP_Text m_textMeshPro;
     private Material m_material;
 
-
-    void Awake()
+    private void Awake()
     {
         //Debug.Log("Awake() on Script called.");
         m_textMeshPro = GetComponent<TMP_Text>();
@@ -19,7 +18,7 @@ public class EnvMapAnimator : MonoBehaviour
     }
 
     // Use this for initialization
-    IEnumerator Start()
+    private IEnumerator Start()
     {
         Matrix4x4 matrix = new Matrix4x4();
 

@@ -26,13 +26,13 @@ public class GlitchEffect : MonoBehaviour
     private float _flickerTime = 0.5f;
     private Material _material;
 
-    void Start()
+    private void Start()
     {
         _material = new Material(Shader);
     }
 
     // Called by camera to apply image effect
-    void OnRenderImage(RenderTexture source, RenderTexture destination)
+    private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         _material.SetFloat("_Intensity", intensity);
         _material.SetFloat("_ColorIntensity", colorIntensity);
@@ -48,37 +48,51 @@ public class GlitchEffect : MonoBehaviour
         }
 
         if (colorIntensity == 0)
+        {
             _material.SetFloat("filterRadius", 0);
+        }
 
         _glitchup += Time.deltaTime * flipIntensity;
         if (_glitchup > _glitchupTime)
         {
             if (Random.value < 0.1f * flipIntensity)
+            {
                 _material.SetFloat("flip_up", Random.Range(0, 1f) * flipIntensity);
+            }
             else
+            {
                 _material.SetFloat("flip_up", 0);
+            }
 
             _glitchup = 0;
             _glitchupTime = Random.value / 10f;
         }
 
         if (flipIntensity == 0)
+        {
             _material.SetFloat("flip_up", 0);
+        }
 
         _glitchdown += Time.deltaTime * flipIntensity;
         if (_glitchdown > _glitchdownTime)
         {
             if (Random.value < 0.1f * flipIntensity)
+            {
                 _material.SetFloat("flip_down", 1 - Random.Range(0, 1f) * flipIntensity);
+            }
             else
+            {
                 _material.SetFloat("flip_down", 1);
+            }
 
             _glitchdown = 0;
             _glitchdownTime = Random.value / 10f;
         }
 
         if (flipIntensity == 0)
+        {
             _material.SetFloat("flip_down", 1);
+        }
 
         if (Random.value < 0.05 * intensity)
         {
@@ -86,7 +100,9 @@ public class GlitchEffect : MonoBehaviour
             _material.SetFloat("scale", 1 - Random.value * intensity);
         }
         else
+        {
             _material.SetFloat("displace", 0);
+        }
 
         Graphics.Blit(source, destination, _material);
     }

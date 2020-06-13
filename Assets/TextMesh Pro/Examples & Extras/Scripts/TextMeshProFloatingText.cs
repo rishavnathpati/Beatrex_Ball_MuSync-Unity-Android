@@ -16,18 +16,17 @@ namespace TMPro.Examples
         private Transform m_transform;
         private Transform m_floatingText_Transform;
         private Transform m_cameraTransform;
-
-        Vector3 lastPOS = Vector3.zero;
-        Quaternion lastRotation = Quaternion.identity;
+        private Vector3 lastPOS = Vector3.zero;
+        private Quaternion lastRotation = Quaternion.identity;
 
         public int SpawnType;
 
         //private int m_frame = 0;
 
-        void Awake()
+        private void Awake()
         {
             m_transform = transform;
-            m_floatingText = new GameObject(this.name + " floating text");
+            m_floatingText = new GameObject(name + " floating text");
 
             // Reference to Transform is lost when TMP component is added since it replaces it by a RectTransform.
             //m_floatingText_Transform = m_floatingText.transform;
@@ -36,7 +35,7 @@ namespace TMPro.Examples
             m_cameraTransform = Camera.main.transform;
         }
 
-        void Start()
+        private void Start()
         {
             if (SpawnType == 0)
             {
