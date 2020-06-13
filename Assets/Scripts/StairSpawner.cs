@@ -5,20 +5,21 @@ public class StairSpawner : MonoBehaviour
     public GameObject stairPrefab;
     public GameObject Orb;
     public GameObject Vortex;
-    public GameObject spikeyStair;
-    public int index = 0;
-
-
-    //[SerializeField]
-    float stairWidth = 4f;
-    float stairHeight = 0.6f;
-    float hue;
-    bool spikeyIsRecent = false;
+    public GameObject spikeyStairL;
+    public GameObject spikeyStairR;
+    
+    int index = 0;
     int score;
-    GameObject stair;
-    public float stairGap;
+    float stairGap;
+    float stairWidth;
+    float stairHeight;
+    float hue;
+    bool spikeyIsRecent;
+    
+    
 
     Vector2 newPosition;
+    GameObject stair;
     public static StairSpawner instance = null;
 
 
@@ -29,30 +30,24 @@ public class StairSpawner : MonoBehaviour
         if (instance == null)
             instance = this;
         stairGap = 5f;
-
-        for (int i = 0; i < 5; i++)
-            makeStair();
-        spawnStairs();
+        for (int i = 0; i <= 5, i++)
+            MakeStair();
+        SpawnStairs();
         InitColour(0.9f);
     }
 
-    void spawnStairs()
+    void SpawnStairs()
     {
-        InvokeRepeating("makeStair", 0, 0.2f);
+        InvokeRepeating("MakeStair", 0, 0.3f);
     }
 
-    public void SetScore(int s)
+    public void GetScore(int s)
     {
         score = s;
     }
 
-    public void SetStairWidth(float w)
-    {
-        stairWidth -= w;
-    }
 
-
-    public void makeStair()
+    public void MakeStair()
     {
         if (index == 0)
             newPosition = new Vector2(0, 5);
@@ -61,23 +56,32 @@ public class StairSpawner : MonoBehaviour
 
         if (UnityEngine.Random.Range(1, 10) <= 2 && score > 10 && spikeyIsRecent == false)
         {
-            stair = Instantiate(spikeyStair, newPosition, Quaternion.identity);
+            if(index%2==0)
+                stair = Instantiate(spikeyStairL, newPosition, Quaternion.identity);
+            else
+                stair = Instantiate(spikeyStairR, newPosition, Quaternion.identity);
             spikeyIsRecent = true;
+            stairWidth = 1f;
+            stairHeight = 1f;
         }
 
         else
         {
             stair = Instantiate(stairPrefab, newPosition, Quaternion.identity);
-            spikeyIsRecent = false; ;
+            spikeyIsRecent = false;
+            stairWidth = 4f;
+            stairHeight = 0.6f;
         }
 
 
         stair.transform.SetParent(transform);
         stair.transform.localScale = new Vector2(stairWidth, stairHeight);
+        stair.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(Random.Range(0f, 0.9f), 1f, 0.15f);
 
         if (UnityEngine.Random.Range(0, 8) < 1)
-            makeOrb(index);
+            MakeOrb(index);
         index++;
+        stairGap += 0.02f;
     }
 
     public void SpecialStairs(float pos)
@@ -89,10 +93,10 @@ public class StairSpawner : MonoBehaviour
     }
 
 
-    public void makeOrb(int index)
+    public void MakeOrb(int index)
     {
         Instantiate(Orb, new Vector2(UnityEngine.Random.Range(-3f, 3f), index * 3.5f), Quaternion.identity);
-        if (UnityEngine.Random.Range(1, 20) == 1 && score > 10)
+        if (UnityEngine.Random.Range(1, 20) == 1 && score > 40)
             Instantiate(Vortex, new Vector2(UnityEngine.Random.Range(-4f, 4f), index * 3.5f), Quaternion.identity);
     }
 

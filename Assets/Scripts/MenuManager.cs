@@ -5,6 +5,7 @@ public class MenuManager : MonoBehaviour
 {
     public GameObject mainMenu;
     public GameObject loadingScreen;
+    public static bool gamePaused;
     public void PlayButton()
     {
         SceneManager.LoadSceneAsync(1);
@@ -21,15 +22,23 @@ public class MenuManager : MonoBehaviour
     public void PauseButton()
     {
         Time.timeScale = 0;
+        gamePaused = true;
     }
 
     public void ResumeButton()
     {
         Time.timeScale = 1;
+        gamePaused = false;
     }
 
     public void HomeButton()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void RestartButton()
+    {
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

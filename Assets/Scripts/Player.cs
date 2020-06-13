@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -7,14 +6,17 @@ public class Player : MonoBehaviour
 
     public float jumpForce;
     public float value;
-    public bool gameHasStarted;
     public bool glitchModeOn;
     public new AudioSource[] audio;
     public Text scoreText;
+    public Text highScore;
+    public Text scoreText2;
+    public OrbFillBar OrbFillBar;
     public GameObject jumpEffect;
     public GameObject blastEffect;
-    public OrbFillBar OrbFillBar;
     public GameObject glitchCam, normalCam;
+    public GameObject GameOverPanel;
+    public GameObject UIPanel;
 
     int score;
     int scoreHundreadthCount = -1;
@@ -35,14 +37,15 @@ public class Player : MonoBehaviour
     {
         score = 0;
         orbCount = 0;
-        playerHasNotCollidedWithSpike = true;
-        tellHighScore = true;
-        isBoosted = false;
-        Time.timeScale = 1f;
-        gameHasStarted = true;
         value = 0.9f;
         scoreValue = 1;
+        isBoosted = false;
+        Time.timeScale = 1f;
+        tellHighScore = true;
         glitchModeOn = false;
+        MenuManager.gamePaused = false;
+        playerHasNotCollidedWithSpike = true;
+        highScore.text = PlayerPrefs.GetInt("highScore").ToString();
 
         rb = GetComponent<Rigidbody2D>();
         PlayerPrefs.SetInt("score", score);
@@ -62,7 +65,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        addGravity();
+        AddGravity();
         GetInput();
         MovePlayer();
         CheckPlayerPos();
@@ -70,52 +73,48 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (gameHasStarted)
-        //{
-            if (collision.CompareTag("Stair"))
+        if (collision.CompareTag("Stair"))
+        {
+            if (rb.velocity.y <= 0f)
             {
-                if (rb.velocity.y <= 0f)
-                {
-                    JumpEffect();
-                    rb.velocity = new Vector2(0, jumpForce);
-                    DestroyAndMakeStair(collision);
-                    StairSpawner.instance.InitColour(value);                  
-                    IncreaseScore();
-                }
+                JumpEffect();
+                rb.velocity = new Vector2(0, jumpForce);
+                Destroy(collision.gameObject, 1.5f);
+                StairSpawner.instance.InitColour(value);
+                IncreaseScore();
             }
+        }
 
-            if (collision.CompareTag("SpikeyStair") && !isBoosted && !glitchModeOn)
-            {
-                playerHasNotCollidedWithSpike = false;
-                PlayAudio(18);
-                PauseAudio(audioNumber);
-                Invoke("GameOver", 1.5f);
-            }
+        if (collision.CompareTag("SpikeyStair") && !isBoosted && !glitchModeOn)
+        {
+            playerHasNotCollidedWithSpike = false;
+            PlayAudio(18);
+            PauseAudio(audioNumber);
+            Invoke("GameOver", 1.5f);
+        }
 
-            if (collision.CompareTag("Orb"))
+        if (collision.CompareTag("Orb"))
+        {
+            orbCount++;
+            Destroy(Instantiate(blastEffect, transform.position, Quaternion.identity), 1f);
+            OrbFillBar.SetPowerUpBar(orbCount);
+            Destroy(collision.gameObject);
+
+            if (orbCount % 10 == 0)
             {
-                orbCount++;
-                Destroy(Instantiate(blastEffect, transform.position, Quaternion.identity), 1f);
+                orbCount = 0;
                 OrbFillBar.SetPowerUpBar(orbCount);
-                Destroy(collision.gameObject);
-
-                if (orbCount % 10 == 0)
-                {
-                    orbCount = 0;
-                    OrbFillBar.SetPowerUpBar(orbCount);
-                    GiveBoostToPlayer();
-                }
+                GiveBoostToPlayer();
             }
+        }
 
-            if (collision.CompareTag("Vortex"))
-            {
-                Destroy(collision.gameObject);
-                PlayAudio(27);
-                GlitchModeOn();
-                StairSpawner.instance.SpecialStairs(transform.position.y);
-            }
-        //}
-
+        if (collision.CompareTag("Vortex"))
+        {
+            Destroy(collision.gameObject);
+            PlayAudio(27);
+            GlitchModeOn();
+            StairSpawner.instance.SpecialStairs(transform.position.y);
+        }
     }
 
     private void GiveBoostToPlayer()
@@ -126,7 +125,6 @@ public class Player : MonoBehaviour
         Invoke("CancelInvoke1", 1.5f);
         for (int i = 0; i < 10; i++)
             IncreaseScore();
-        scoreText.text = score.ToString();
     }
 
     void IncreaseVelocity()
@@ -153,14 +151,13 @@ public class Player : MonoBehaviour
     private void IncreaseScore()
     {
         score += scoreValue;
-        jumpForce += 0.07f;
-        StairSpawner.instance.stairGap += .02f;
+        jumpForce += 0.05f;
         scoreText.text = score.ToString();
+        scoreText2.text = score.ToString();
 
         if (score % 60 == 0)
         {
-            StairSpawner.instance.SetStairWidth(0.3f);
-            Time.timeScale += 0.1f;
+            Time.timeScale += 0.08f;
             if (UnityEngine.Random.Range(0, 2) == 1)
                 PlayAudio(11);
             else
@@ -177,6 +174,9 @@ public class Player : MonoBehaviour
             if (score > PlayerPrefs.GetInt("highScore"))
             {
                 PlayerPrefs.SetInt("highScore", score);
+                highScore.text = PlayerPrefs.GetInt("highScore").ToString();
+                //Debug.LogWarning("High Score" + PlayerPrefs.GetInt("highScore"));
+
                 if (tellHighScore)
                 {
                     PlayAudio(UnityEngine.Random.Range(13, 15));
@@ -189,18 +189,12 @@ public class Player : MonoBehaviour
             PlayerPrefs.SetInt("highScore", score);
         }
 
-        StairSpawner.instance.SetScore(score);
+        StairSpawner.instance.GetScore(score);
     }
 
     private void JumpEffect()
     {
         Destroy(Instantiate(jumpEffect, transform.position, Quaternion.identity), 0.5f);
-    }
-
-    private void DestroyAndMakeStair(Collider2D collision)
-    {
-        Destroy(collision.gameObject, 2f);
-        StairSpawner.instance.makeStair();
     }
 
     private void GetInput()
@@ -237,9 +231,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    void addGravity()
+    void AddGravity()
     {
-        rb.velocity = new Vector2(0, rb.velocity.y - .4f);
+        if (!MenuManager.gamePaused)
+            rb.velocity = new Vector2(0, rb.velocity.y - .4f);
     }
 
     void CheckPlayerPos()
@@ -263,7 +258,10 @@ public class Player : MonoBehaviour
 
     private void GameOver()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 0;
+        GameOverPanel.SetActive(true);
+        UIPanel.SetActive(false);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GlitchModeOn()

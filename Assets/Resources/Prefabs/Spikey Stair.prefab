@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7281337476103187381}
   - component: {fileID: 7281337476103187380}
   m_Layer: 5
-  m_Name: Spikey Stair Left
+  m_Name: Spikey Stair
   m_TagString: SpikeyStair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 900
   m_Sprite: {fileID: 21300000, guid: dc5eac90c7b57d346936876d509f1ebd, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -95,16 +95,16 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.27253786, y: 0}
+  m_Offset: {x: 0.002970025, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.092, y: 1.092}
+    oldSize: {x: 0.672, y: 1.092}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.52680236, y: 1}
+  m_Size: {x: 0.6698544, y: 1.1112629}
   m_EdgeRadius: 0
