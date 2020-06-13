@@ -3761,7 +3761,7 @@ MonoBehaviour:
   Vortex: {fileID: 397970068530247401, guid: 8ec4ba11c4638474f96be6863f384488, type: 3}
   spikeyStairL: {fileID: 8341158914582046120, guid: 40d5a40270cb7d0489dcbcef452a64d4,
     type: 3}
-  spikeyStairR: {fileID: 8341158914582046120, guid: c5bd7809fbe93b94ca4bd568a4c7f858,
+  spikeyStairR: {fileID: 8341158914582046120, guid: 60cf3b9527a930146910f289a4d316ba,
     type: 3}
 --- !u!212 &1479723785
 SpriteRenderer:
@@ -3928,7 +3928,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1532300139
 GameObject:
@@ -6032,7 +6032,7 @@ PrefabInstance:
     - target: {fileID: 984636129212932381, guid: af8dc42e54b2565478c94bf99dc02f64,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 984636129212932381, guid: af8dc42e54b2565478c94bf99dc02f64,
         type: 3}
