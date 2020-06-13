@@ -7,7 +7,7 @@ public class StairSpawner : MonoBehaviour
     public GameObject Vortex;
     public GameObject spikeyStairL;
     public GameObject spikeyStairR;
-    
+
     int index = 0;
     int score;
     float stairGap;
@@ -15,8 +15,6 @@ public class StairSpawner : MonoBehaviour
     //float stairHeight;
     float hue;
     bool spikeyIsRecent;
-    
-    
 
     Vector2 newPosition;
     GameObject stair;
@@ -56,7 +54,7 @@ public class StairSpawner : MonoBehaviour
 
         if (UnityEngine.Random.Range(1, 10) <= 2 && score > 10 && spikeyIsRecent == false)
         {
-            if(index%2==0)
+            if (index % 2 == 0)
                 stair = Instantiate(spikeyStairL, newPosition, Quaternion.identity);
             else
                 stair = Instantiate(spikeyStairR, newPosition, Quaternion.identity);

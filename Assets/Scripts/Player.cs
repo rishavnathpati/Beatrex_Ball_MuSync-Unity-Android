@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 
     public float jumpForce;
     public float value;
+    public float timeScaleValue;
     public bool glitchModeOn;
     public new AudioSource[] audio;
     public Text scoreText;
@@ -23,13 +24,21 @@ public class Player : MonoBehaviour
     int orbCount = 0;
     int audioNumber;
     int scoreValue;
+    int lifeCount;
     bool isDragging = false;
-    bool playerHasNotCollidedWithSpike = true;
+    bool playerHasCollidedWithSpike;
     bool tellHighScore;
     bool isBoosted;
 
     Vector2 touchPos, playerPos, dragPos;
     Rigidbody2D rb;
+    public static Player instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+    }
 
 
     // Start is called before the first frame update
@@ -41,21 +50,19 @@ public class Player : MonoBehaviour
         scoreValue = 1;
         isBoosted = false;
         Time.timeScale = 1f;
+        timeScaleValue = 1f;
         tellHighScore = true;
         glitchModeOn = false;
         MenuManager.gamePaused = false;
-        playerHasNotCollidedWithSpike = true;
+        playerHasCollidedWithSpike = false;
         highScore.text = PlayerPrefs.GetInt("highScore").ToString();
 
         rb = GetComponent<Rigidbody2D>();
-        PlayerPrefs.SetInt("score", score);
 
-        //StartGame();
         if (UnityEngine.Random.Range(0, 2) == 1)
             PlayAudio(16);
         else
             PlayAudio(12);
-
         audioNumber = UnityEngine.Random.Range(21, 26);
         PlayAudio(audioNumber);
         Visualizer.instance.GetAudioSource(audio[audioNumber]);
@@ -87,10 +94,11 @@ public class Player : MonoBehaviour
 
         if (collision.CompareTag("SpikeyStair") && !isBoosted && !glitchModeOn)
         {
-            playerHasNotCollidedWithSpike = false;
+            playerHasCollidedWithSpike = true;
+            PlayAudio(28);
             PlayAudio(18);
             PauseAudio(audioNumber);
-            Invoke("GameOver", 1.5f);
+            GameOver();
         }
 
         if (collision.CompareTag("Orb"))
@@ -143,11 +151,6 @@ public class Player : MonoBehaviour
         CancelInvoke("ShakePlayer");
     }
 
-    private void PlayAudio(int soundNumber)
-    {
-        audio[soundNumber].Play();
-    }
-
     private void IncreaseScore()
     {
         score += scoreValue;
@@ -157,7 +160,8 @@ public class Player : MonoBehaviour
 
         if (score % 60 == 0)
         {
-            Time.timeScale += 0.08f;
+            timeScaleValue += 0.8f;
+            Time.timeScale = timeScaleValue;
             if (UnityEngine.Random.Range(0, 2) == 1)
                 PlayAudio(11);
             else
@@ -239,11 +243,11 @@ public class Player : MonoBehaviour
 
     void CheckPlayerPos()
     {
-        if (playerHasNotCollidedWithSpike == true)
+        if (!playerHasCollidedWithSpike)
         {
             if (transform.position.y < Camera.main.transform.position.y - 15)
             {
-                playerHasNotCollidedWithSpike = false;
+                playerHasCollidedWithSpike = true;
                 PlayAudio(18);
                 PauseAudio(audioNumber);
                 Invoke("GameOver", 1.5f);
@@ -251,17 +255,31 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void RespwanPos()
+    {
+        transform.position = new Vector2(0, transform.position.y + 15f);
+        Time.timeScale = timeScaleValue;
+        audio[audioNumber].Play();
+        playerHasCollidedWithSpike = false;
+    }
+
+    private void PlayAudio(int soundNumber)
+    {
+        audio[soundNumber].Play();
+    }
+
     private void PauseAudio(int audioNumber)
     {
         audio[audioNumber].Pause();
     }
 
+
     private void GameOver()
     {
         Time.timeScale = 0;
+        MenuManager.gamePaused = true;
         GameOverPanel.SetActive(true);
         UIPanel.SetActive(false);
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GlitchModeOn()
