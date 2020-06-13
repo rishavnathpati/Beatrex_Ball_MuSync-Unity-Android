@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -160,7 +161,7 @@ public class Player : MonoBehaviour
 
         if (score % 60 == 0)
         {
-            timeScaleValue += 0.8f;
+            timeScaleValue += 0.08f;
             Time.timeScale = timeScaleValue;
             if (UnityEngine.Random.Range(0, 2) == 1)
                 PlayAudio(11);
@@ -203,7 +204,7 @@ public class Player : MonoBehaviour
 
     private void GetInput()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !MenuManager.gamePaused)
         {
             Debug.Log("Mouse button Down");
             isDragging = true;
