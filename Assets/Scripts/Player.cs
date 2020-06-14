@@ -28,7 +28,9 @@ public class Player : MonoBehaviour
     private bool playerHasCollidedWithSpike; //to check is player has collided with the spikey platform or not
     private bool tellHighScore; //to enable the UI to tell the highscore only once during gameplay
     private bool isBoosted; //to check when the player is boosted
-    private Vector2 touchPos, playerPos, dragPos; //for storing various player positions
+    private Vector2 touchPos;
+    private Vector2 playerPos;
+    private Vector2 dragPos; //for storing various player positions
     private Rigidbody2D rb;
     public static Player instance;
     public static bool playerOutOfScreen;
@@ -60,7 +62,7 @@ public class Player : MonoBehaviour
         highScore.text = PlayerPrefs.GetInt("highScore").ToString();
         rb = GetComponent<Rigidbody2D>();
 
-        if (UnityEngine.Random.Range(0, 2) == 1)
+        if (UnityEngine.Random.Range(0, 2) == 1)//Choosing a random start audio
         {
             PlayAudio(16);
         }
@@ -73,14 +75,14 @@ public class Player : MonoBehaviour
         {
             audioTrackNumber = Random.Range(26, 31);
         }
-        else if(MenuManager.isEDMTrue)
+        else if (MenuManager.isEDMTrue)
         {
             audioTrackNumber = Random.Range(21, 26);
         }
 
         PlayAudio(audioTrackNumber);
-        Visualizer.instance.GetAudioSource(audio[audioTrackNumber]);
-        orbFillBar.SetPowerUpBar(orbCount);
+        Visualizer.instance.GetAudioSource(audio[audioTrackNumber]);//Starting the visualizer with the music selected
+        orbFillBar.SetPowerUpBar(orbCount);//Setting the Orb bar to zero
     }
 
     private void Update()
