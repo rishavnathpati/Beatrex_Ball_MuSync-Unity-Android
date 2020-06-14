@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
 
         //Determining whether player has selected EDM or Lo-Fi
         Debug.Log("\nLofi: " + PlayerPrefs.GetInt("loFiIs") + "\nEDM: " + PlayerPrefs.GetInt("EDMis"));
-        if (PlayerPrefs.GetInt("EDMis")==1) //EDM
+        if (PlayerPrefs.GetInt("EDMis") == 1) //EDM
         {
             audioTrackNumber = Random.Range(17, 22);
         }
