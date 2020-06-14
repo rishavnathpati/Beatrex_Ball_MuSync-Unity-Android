@@ -4823,7 +4823,7 @@ GameObject:
   - component: {fileID: 6899548258151065988}
   - component: {fileID: 2238358441153743990}
   m_Layer: 0
-  m_Name: PlayerJump
+  m_Name: PlayerJump Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4855,7 +4855,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c6a1f3ff8d5b3a8489fc3037838cfed3, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.47
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0

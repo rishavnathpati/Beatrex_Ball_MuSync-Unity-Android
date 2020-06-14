@@ -6,8 +6,6 @@ public class MenuManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject loadingScreen;
     public static bool gamePaused;
-    public static bool loFiIsTrue;
-    public static bool isEDMTrue;
 
     public void PlayButton()
     {
@@ -50,15 +48,17 @@ public class MenuManager : MonoBehaviour
         gamePaused = false;
     }
 
-    public void IsLoFiTrue()
+    public void LoFiIsTrue()
     {
-        loFiIsTrue = true;
-        isEDMTrue = false;
+        PlayerPrefs.SetInt("loFiIs", 1);
+        PlayerPrefs.SetInt("EDMis", 0);
+        Debug.Log("EDM is: " + PlayerPrefs.GetInt("EDMis") + "Lofi is: " + PlayerPrefs.GetInt("loFiIs"));
     }
 
-    public void IsEDMTrue()
+    public void EDMIsTrue()
     {
-        isEDMTrue = true;
-        loFiIsTrue = false;
+        PlayerPrefs.SetInt("loFiIs", 0);
+        PlayerPrefs.SetInt("EDMis", 1);
+        Debug.Log("EDM is: " + PlayerPrefs.GetInt("EDMis")+ "Lofi is: " + PlayerPrefs.GetInt("loFiIs"));
     }
 }

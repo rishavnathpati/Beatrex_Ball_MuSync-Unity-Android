@@ -62,23 +62,19 @@ public class Player : MonoBehaviour
         highScore.text = PlayerPrefs.GetInt("highScore").ToString();
         rb = GetComponent<Rigidbody2D>();
 
-        if (UnityEngine.Random.Range(0, 2) == 1)//Choosing a random start audio
-        {
-            PlayAudio(16);
-        }
-        else
-        {
-            PlayAudio(12);
-        }
+        PlayAudio(UnityEngine.Random.Range(10, 12)); //Choosing a random start audio
 
-        if (MenuManager.loFiIsTrue) //Determining whether player has selected Lofi or EDM
+        //Determining whether player has selected EDM or Lo-Fi
+        Debug.Log("\nLofi: " + PlayerPrefs.GetInt("loFiIs") + "\nEDM: " + PlayerPrefs.GetInt("EDMis"));
+        if (PlayerPrefs.GetInt("EDMis")==1) //EDM
         {
-            audioTrackNumber = Random.Range(26, 31);
+            audioTrackNumber = Random.Range(17, 22);
         }
-        else if (MenuManager.isEDMTrue)
+        else //Lo-Fi
         {
-            audioTrackNumber = Random.Range(21, 26);
+            audioTrackNumber = Random.Range(22, 27);
         }
+        Debug.Log("Audio Track Selected is: " + audioTrackNumber);
 
         PlayAudio(audioTrackNumber);
         Visualizer.instance.GetAudioSource(audio[audioTrackNumber]);//Starting the visualizer with the music selected
@@ -110,8 +106,8 @@ public class Player : MonoBehaviour
         if (collision.CompareTag("SpikeyStair") && !isBoosted && !glitchModeOn)
         {
             playerHasCollidedWithSpike = true;
+            PlayAudio(16);
             PlayAudio(28);
-            PlayAudio(18);
             PauseAudio(audioTrackNumber);
             GameOver();
         }
@@ -178,14 +174,7 @@ public class Player : MonoBehaviour
         {
             timeScaleValue += 0.08f;
             Time.timeScale = timeScaleValue;
-            if (UnityEngine.Random.Range(0, 2) == 1)
-            {
-                PlayAudio(11);
-            }
-            else
-            {
-                PlayAudio(15);
-            }
+            PlayAudio(UnityEngine.Random.Range(12, 14));
         }
         if (score % 100 == 0)
         {
@@ -202,7 +191,7 @@ public class Player : MonoBehaviour
 
                 if (tellHighScore)
                 {
-                    PlayAudio(UnityEngine.Random.Range(13, 15));
+                    PlayAudio(UnityEngine.Random.Range(14, 16));
                     tellHighScore = false;
                 }
             }
@@ -269,7 +258,7 @@ public class Player : MonoBehaviour
             if (transform.position.y < Camera.main.transform.position.y - 15)
             {
                 playerHasCollidedWithSpike = true;
-                PlayAudio(18);
+                PlayAudio(16);
                 PauseAudio(audioTrackNumber);
                 playerOutOfScreen = true;
                 Invoke("GameOver", 1.5f);
@@ -279,7 +268,7 @@ public class Player : MonoBehaviour
 
     public void RespwanPos()
     {
-        transform.position = new Vector2(0, transform.position.y + 5f);
+        transform.position = new Vector2(0, transform.position.y + 3f);
         Time.timeScale = timeScaleValue;
         audio[audioTrackNumber].Play();
         playerHasCollidedWithSpike = false;
@@ -288,6 +277,7 @@ public class Player : MonoBehaviour
     private void PlayAudio(int soundNumber)
     {
         audio[soundNumber].Play();
+        //Debug.LogWarning("Audio being played: " + soundNumber);
     }
 
     private void PauseAudio(int audioNumber)
