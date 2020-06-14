@@ -6,6 +6,8 @@ public class MenuManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject loadingScreen;
     public static bool gamePaused;
+    public static bool loFiIsTrue;
+    public static bool isEDMTrue;
 
     public void PlayButton()
     {
@@ -39,7 +41,6 @@ public class MenuManager : MonoBehaviour
 
     public void RestartButton()
     {
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -47,5 +48,17 @@ public class MenuManager : MonoBehaviour
     {
         Player.instance.RespwanPos();
         gamePaused = false;
+    }
+
+    public void IsLoFiTrue()
+    {
+        loFiIsTrue = true;
+        isEDMTrue = false;
+    }
+
+    public void IsEDMTrue()
+    {
+        isEDMTrue = true;
+        loFiIsTrue = false;
     }
 }

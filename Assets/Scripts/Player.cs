@@ -4,33 +4,34 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
 
-    public float jumpForce;
-    public float value;
-    public float timeScaleValue;
-    public bool glitchModeOn;
-    public new AudioSource[] audio;
-    public Text scoreText;
-    public Text highScore;
-    public Text scoreText2;
-    public OrbFillBar OrbFillBar;
-    public GameObject jumpEffect;
-    public GameObject blastEffect;
-    public GameObject glitchCam, normalCam;
-    public GameObject GameOverPanel;
-    public GameObject UIPanel;
-    private int score;
-    private int scoreHundreadthCount = -1;
-    private int orbCount = 0;
-    private int audioNumber;
-    private int scoreValue;
-    private readonly int lifeCount;
-    private bool isDragging = false;
-    private bool playerHasCollidedWithSpike;
-    private bool tellHighScore;
-    private bool isBoosted;
-    private Vector2 touchPos, playerPos, dragPos;
+    public float jumpForce; //decides how much force will be applied on the player
+    public float colorValue; //decides what wil be the value of V in HSV 
+    public float timeScaleValue; //decides the pace of the game
+    public bool glitchModeOn; //for checking is glitch mode is on/off
+    public new AudioSource[] audio; //an array of all the music and audio being used
+    public Text scoreText; //to show the current score in Canvas UI
+    public Text highScore; //to show the current high score in Canvas UI
+    public Text scoreText2; //to show the current score in Game Over panel UI
+    public OrbFillBar orbFillBar; //to get access to the Orb filling bar
+    public GameObject jumpEffect; //the effect when player hits the platform
+    public GameObject blastEffect; //the effect when player hits the Orbs
+    public GameObject glitchCam, normalCam; //the two camera modes for glitch and normal mode respectively
+    public GameObject GameOverPanel; //Game over panel 
+    public GameObject UIPanel; //standard UI panel
+    public GameObject respawnButton; //to get access to the respawn button
+    private int score; //to keep count of the score
+    private int scoreHundreadthCount = -1; // to keep count of the number of hundreadths reached
+    private int orbCount = 0; //to keep count of the number of orbs collected
+    private int audioTrackNumber; //to keep the audio track number
+    private int scoreValueIncrements; //to control the increment of score in various modes
+    private bool isDragging = false; //to check if the player is dragging on the screen or not
+    private bool playerHasCollidedWithSpike; //to check is player has collided with the spikey platform or not
+    private bool tellHighScore; //to enable the UI to tell the highscore only once during gameplay
+    private bool isBoosted; //to check when the player is boosted
+    private Vector2 touchPos, playerPos, dragPos; //for storing various player positions
     private Rigidbody2D rb;
     public static Player instance;
+    public static bool playerOutOfScreen;
 
     private void Awake()
     {
@@ -44,8 +45,9 @@ public class Player : MonoBehaviour
     {
         score = 0;
         orbCount = 0;
-        value = 0.9f;
-        scoreValue = 1;
+        colorValue = 0.9f;
+        scoreValueIncrements = 1;
+        scoreHundreadthCount = -1;
         isBoosted = false;
         Time.timeScale = 1f;
         timeScaleValue = 1f;
@@ -53,8 +55,9 @@ public class Player : MonoBehaviour
         glitchModeOn = false;
         MenuManager.gamePaused = false;
         playerHasCollidedWithSpike = false;
-        highScore.text = PlayerPrefs.GetInt("highScore").ToString();
+        playerOutOfScreen = false;
 
+        highScore.text = PlayerPrefs.GetInt("highScore").ToString();
         rb = GetComponent<Rigidbody2D>();
 
         if (UnityEngine.Random.Range(0, 2) == 1)
@@ -66,10 +69,18 @@ public class Player : MonoBehaviour
             PlayAudio(12);
         }
 
-        audioNumber = UnityEngine.Random.Range(21, 26);
-        PlayAudio(audioNumber);
-        Visualizer.instance.GetAudioSource(audio[audioNumber]);
-        OrbFillBar.SetPowerUpBar(orbCount);
+        if (MenuManager.loFiIsTrue) //Determining whether player has selected Lofi or EDM
+        {
+            audioTrackNumber = Random.Range(26, 31);
+        }
+        else if(MenuManager.isEDMTrue)
+        {
+            audioTrackNumber = Random.Range(21, 26);
+        }
+
+        PlayAudio(audioTrackNumber);
+        Visualizer.instance.GetAudioSource(audio[audioTrackNumber]);
+        orbFillBar.SetPowerUpBar(orbCount);
     }
 
     private void Update()
@@ -89,7 +100,7 @@ public class Player : MonoBehaviour
                 JumpEffect();
                 rb.velocity = new Vector2(0, jumpForce);
                 Destroy(collision.gameObject, 1.5f);
-                StairSpawner.instance.InitColour(value);
+                StairSpawner.instance.InitColour(colorValue);
                 IncreaseScore();
             }
         }
@@ -99,7 +110,7 @@ public class Player : MonoBehaviour
             playerHasCollidedWithSpike = true;
             PlayAudio(28);
             PlayAudio(18);
-            PauseAudio(audioNumber);
+            PauseAudio(audioTrackNumber);
             GameOver();
         }
 
@@ -107,13 +118,13 @@ public class Player : MonoBehaviour
         {
             orbCount++;
             Destroy(Instantiate(blastEffect, transform.position, Quaternion.identity), 1f);
-            OrbFillBar.SetPowerUpBar(orbCount);
+            orbFillBar.SetPowerUpBar(orbCount);
             Destroy(collision.gameObject);
 
             if (orbCount % 10 == 0)
             {
                 orbCount = 0;
-                OrbFillBar.SetPowerUpBar(orbCount);
+                orbFillBar.SetPowerUpBar(orbCount);
                 GiveBoostToPlayer();
             }
         }
@@ -157,8 +168,7 @@ public class Player : MonoBehaviour
 
     private void IncreaseScore()
     {
-        score += scoreValue;
-        jumpForce += 0.05f;
+        score += scoreValueIncrements;
         scoreText.text = score.ToString();
         scoreText2.text = score.ToString();
 
@@ -258,7 +268,8 @@ public class Player : MonoBehaviour
             {
                 playerHasCollidedWithSpike = true;
                 PlayAudio(18);
-                PauseAudio(audioNumber);
+                PauseAudio(audioTrackNumber);
+                playerOutOfScreen = true;
                 Invoke("GameOver", 1.5f);
             }
         }
@@ -266,9 +277,9 @@ public class Player : MonoBehaviour
 
     public void RespwanPos()
     {
-        transform.position = new Vector2(0, transform.position.y + 15f);
+        transform.position = new Vector2(0, transform.position.y + 5f);
         Time.timeScale = timeScaleValue;
-        audio[audioNumber].Play();
+        audio[audioTrackNumber].Play();
         playerHasCollidedWithSpike = false;
     }
 
@@ -288,16 +299,21 @@ public class Player : MonoBehaviour
         Time.timeScale = 0;
         MenuManager.gamePaused = true;
         GameOverPanel.SetActive(true);
+        if (playerOutOfScreen)
+        {
+            respawnButton.SetActive(false);
+        }
+
         UIPanel.SetActive(false);
     }
 
     public void GlitchModeOn()
     {
-        value = 0.25f;
+        colorValue = 0.25f;
         glitchCam.SetActive(true);
         normalCam.SetActive(false);
         glitchModeOn = true;
-        scoreValue = 2;
+        scoreValueIncrements = 2;
         Invoke("GlitchModeOff", 10f);
     }
 
@@ -306,8 +322,8 @@ public class Player : MonoBehaviour
         StairSpawner.instance.SpecialStairs(transform.position.y);
         glitchCam.SetActive(false);
         normalCam.SetActive(true);
-        value = 0.9f;
+        colorValue = 0.9f;
         glitchModeOn = false;
-        scoreValue = 1;
+        scoreValueIncrements = 1;
     }
 }

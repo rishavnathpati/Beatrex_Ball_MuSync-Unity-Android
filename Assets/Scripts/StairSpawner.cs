@@ -85,7 +85,6 @@ public class StairSpawner : MonoBehaviour
         }
 
         index++;
-        stairGap += 0.02f;
     }
 
     public void SpecialStairs(float pos)
