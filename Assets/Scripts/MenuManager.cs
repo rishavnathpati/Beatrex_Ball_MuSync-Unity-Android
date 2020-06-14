@@ -59,6 +59,6 @@ public class MenuManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("loFiIs", 0);
         PlayerPrefs.SetInt("EDMis", 1);
-        Debug.Log("EDM is: " + PlayerPrefs.GetInt("EDMis")+ "Lofi is: " + PlayerPrefs.GetInt("loFiIs"));
+        Debug.Log("EDM is: " + PlayerPrefs.GetInt("EDMis") + "Lofi is: " + PlayerPrefs.GetInt("loFiIs"));
     }
 }
