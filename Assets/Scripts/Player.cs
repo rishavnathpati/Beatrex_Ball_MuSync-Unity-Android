@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public Text scoreText; //to show the current score in Canvas UI
     public Text highScore; //to show the current high score in Canvas UI
     public Text scoreText2; //to show the current score in Game Over panel UI
+    public Text LifeCount;
     public OrbFillBar orbFillBar; //to get access to the Orb filling bar
     public GameObject jumpEffect; //the effect when player hits the platform
     public GameObject blastEffect; //the effect when player hits the Orbs
@@ -19,6 +20,8 @@ public class Player : MonoBehaviour
     public GameObject GameOverPanel; //Game over panel 
     public GameObject UIPanel; //standard UI panel
     public GameObject respawnButton; //to get access to the respawn button
+    public GameObject LoFiImage;
+    public GameObject EDMImage;
     private int score; //to keep count of the score
     private int scoreHundreadthCount = -1; // to keep count of the number of hundreadths reached
     private int orbCount = 0; //to keep count of the number of orbs collected
@@ -62,6 +65,11 @@ public class Player : MonoBehaviour
         highScore.text = PlayerPrefs.GetInt("highScore").ToString();
         rb = GetComponent<Rigidbody2D>();
 
+        if (!PlayerPrefs.HasKey("livesRemaining"))
+        {
+            PlayerPrefs.SetInt("livesRemaining", 5);
+        }
+
         PlayAudio(UnityEngine.Random.Range(10, 12)); //Choosing a random start audio
 
         //Determining whether player has selected EDM or Lo-Fi
@@ -69,10 +77,14 @@ public class Player : MonoBehaviour
         if (PlayerPrefs.GetInt("EDMis") == 1) //EDM
         {
             audioTrackNumber = Random.Range(17, 22);
+            LoFiImage.SetActive(false);
+            EDMImage.SetActive(true);
         }
         else //Lo-Fi
         {
             audioTrackNumber = Random.Range(22, 27);
+            LoFiImage.SetActive(true);
+            EDMImage.SetActive(false);
         }
         Debug.Log("Audio Track Selected is: " + audioTrackNumber);
 
@@ -98,6 +110,11 @@ public class Player : MonoBehaviour
                 JumpEffect();
                 rb.velocity = new Vector2(0, jumpForce);
                 Destroy(collision.gameObject, 1.5f);
+                if (PlayerPrefs.GetInt("EDMis") == 1)
+                {
+                    colorValue = 0.5f;
+                }
+
                 StairSpawner.instance.InitColour(colorValue);
                 IncreaseScore();
             }
@@ -123,7 +140,7 @@ public class Player : MonoBehaviour
             {
                 orbCount = 0;
                 orbFillBar.SetPowerUpBar(orbCount);
-                GiveBoostToPlayer();
+                GiveBoostToPlayer(100f, 1.5f);
             }
         }
 
@@ -136,21 +153,21 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void GiveBoostToPlayer()
+    private void GiveBoostToPlayer(float boost, float time)
     {
         isBoosted = true;
-        IncreaseVelocity();
+        IncreaseVelocity(boost);
         InvokeRepeating("ShakePlayer", 0f, 0.5f);
-        Invoke("CancelInvoke1", 1.5f);
+        Invoke("CancelInvoke1", time);
         for (int i = 0; i < 10; i++)
         {
             IncreaseScore();
         }
     }
 
-    private void IncreaseVelocity()
+    private void IncreaseVelocity(float boost)
     {
-        rb.velocity = new Vector2(0f, 100f);
+        rb.velocity = new Vector2(0f, boost);
     }
 
     private void ShakePlayer()
@@ -272,6 +289,7 @@ public class Player : MonoBehaviour
         Time.timeScale = timeScaleValue;
         audio[audioTrackNumber].Play();
         playerHasCollidedWithSpike = false;
+        GiveBoostToPlayer(jumpForce, 1f);
     }
 
     private void PlayAudio(int soundNumber)
@@ -295,6 +313,8 @@ public class Player : MonoBehaviour
         {
             respawnButton.SetActive(false);
         }
+
+        LifeCount.text = PlayerPrefs.GetInt("livesRemaining").ToString();
 
         UIPanel.SetActive(false);
     }

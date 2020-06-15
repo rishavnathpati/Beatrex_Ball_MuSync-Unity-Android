@@ -22,7 +22,7 @@ public class LevelLoader : MonoBehaviour
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
             slider.value = progress;
-            loadingText.text = "L O A D I N G : " + (progress * 100.00f).ToString() + " %";
+            //loadingText.text = "L O A D I N G : " + (progress * 100).ToString() + " %";
             yield return null;
         }
     }

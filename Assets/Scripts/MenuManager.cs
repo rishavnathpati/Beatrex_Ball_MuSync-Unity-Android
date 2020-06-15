@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     public GameObject mainMenu;
     public GameObject loadingScreen;
     public static bool gamePaused;
+    public GameObject GetaLife;
+    public GameObject GameOverPanel;
+    public Text LifeCount;
 
     public void PlayButton()
     {
@@ -44,8 +48,24 @@ public class MenuManager : MonoBehaviour
 
     public void RespawnButton()
     {
-        Player.instance.RespwanPos();
-        gamePaused = false;
+        if (PlayerPrefs.GetInt("livesRemaining") > 0)
+        {
+            Player.instance.RespwanPos();
+            gamePaused = false;
+            PlayerPrefs.SetInt("livesRemaining", PlayerPrefs.GetInt("livesRemaining") - 1);
+        }
+        else
+        {
+            //GetALife();
+            GetaLife.SetActive(true);
+            GameOverPanel.SetActive(false);
+        }
+    }
+
+    public void GetALife()
+    {
+        PlayerPrefs.SetInt("livesRemaining", PlayerPrefs.GetInt("livesRemaining") + 1);
+        LifeCount.text = PlayerPrefs.GetInt("livesRemaining").ToString();
     }
 
     public void LoFiIsTrue()
