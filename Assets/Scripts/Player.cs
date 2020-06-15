@@ -289,7 +289,7 @@ public class Player : MonoBehaviour
         Time.timeScale = timeScaleValue;
         audio[audioTrackNumber].Play();
         playerHasCollidedWithSpike = false;
-        GiveBoostToPlayer(jumpForce, 1f);
+        GiveBoostToPlayer(jumpForce, 1.5f);
     }
 
     private void PlayAudio(int soundNumber)
