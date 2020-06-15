@@ -140,7 +140,7 @@ public class Player : MonoBehaviour
             {
                 orbCount = 0;
                 orbFillBar.SetPowerUpBar(orbCount);
-                GiveBoostToPlayer(100f, 1.5f);
+                GiveBoostToPlayer(100f, 10);
             }
         }
 
@@ -153,13 +153,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void GiveBoostToPlayer(float boost, float time)
+    private void GiveBoostToPlayer(float boost, int score)
     {
         isBoosted = true;
         IncreaseVelocity(boost);
         InvokeRepeating("ShakePlayer", 0f, 0.5f);
-        Invoke("CancelInvoke1", time);
-        for (int i = 0; i < 10; i++)
+        Invoke("CancelInvoke1", 1.5f);
+        for (int i = 0; i < score; i++)
         {
             IncreaseScore();
         }
@@ -289,7 +289,7 @@ public class Player : MonoBehaviour
         Time.timeScale = timeScaleValue;
         audio[audioTrackNumber].Play();
         playerHasCollidedWithSpike = false;
-        GiveBoostToPlayer(jumpForce, 1.5f);
+        GiveBoostToPlayer(jumpForce, 0);
     }
 
     private void PlayAudio(int soundNumber)

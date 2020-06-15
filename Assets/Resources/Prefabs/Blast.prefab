@@ -1034,7 +1034,7 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 2.6875672
+      scalar: 4.2410765
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1042,20 +1042,20 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 1
-          inSlope: -2
-          outSlope: -2
+          inSlope: -1.168801
+          outSlope: -1.168801
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.19655171
         - serializedVersion: 3
           time: 1
           value: 0
-          inSlope: 0
-          outSlope: 0
+          inSlope: -0.9097485
+          outSlope: -0.9097485
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0
+          inWeight: 0.19310355
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -4768,7 +4768,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 26ea534dcd83fe14c9173a52e151cce8, type: 2}
   - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

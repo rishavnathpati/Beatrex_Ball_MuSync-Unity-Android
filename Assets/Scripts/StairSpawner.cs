@@ -98,7 +98,7 @@ public class StairSpawner : MonoBehaviour
     public void MakeOrb(int index)
     {
         Instantiate(Orb, new Vector2(UnityEngine.Random.Range(-3f, 3f), index * 3.5f), Quaternion.identity);
-        if (index % 150 == 0)
+        if (index % 120 == 0)
         {
             Instantiate(Vortex, new Vector2(UnityEngine.Random.Range(-4f, 4f), index * 3.5f), Quaternion.identity);
         }
