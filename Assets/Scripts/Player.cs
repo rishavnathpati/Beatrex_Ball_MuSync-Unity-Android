@@ -283,7 +283,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void RespwanPos()
+    public void RespwanPlayerPos()
     {
         Debug.Log("Respawing now");
         transform.position = new Vector2(0, transform.position.y + 3f);
@@ -291,6 +291,11 @@ public class Player : MonoBehaviour
         audio[audioTrackNumber].Play();
         playerHasCollidedWithSpike = false;
         GiveBoostToPlayer(jumpForce, 0);
+    }
+
+    public void RespwanPos()
+    {
+        Invoke("RespwanPlayerPos", 2.5f);
     }
 
     private void PlayAudio(int soundNumber)
