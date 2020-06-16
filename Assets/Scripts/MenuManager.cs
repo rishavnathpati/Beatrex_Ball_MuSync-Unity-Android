@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
     public GameObject GetaLife;
     public GameObject GameOverPanel;
     public Text LifeCount;
+    public AudioSource respawning321;
 
     public void PlayButton()
     {
@@ -50,13 +51,13 @@ public class MenuManager : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("livesRemaining") > 0)
         {
-            Player.instance.RespwanPos();
+            respawning321.Play();
             gamePaused = false;
             PlayerPrefs.SetInt("livesRemaining", PlayerPrefs.GetInt("livesRemaining") - 1);
+            Player.instance.RespwanPos();
         }
         else
         {
-            //GetALife();
             GetaLife.SetActive(true);
             GameOverPanel.SetActive(false);
         }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace UnityStandardAssets.Utility
@@ -29,9 +28,8 @@ namespace UnityStandardAssets.Utility
         private void Update()
         {
             Ray ray = new Ray(Camera.main.transform.position, -Vector3.up);
-            RaycastHit hit;
             float height = transform.position.y;
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 height = hit.distance;
             }
@@ -44,7 +42,7 @@ namespace UnityStandardAssets.Utility
             float i = Mathf.InverseLerp(minHeight, maxHeight, m_SmoothHeight);
 
             QualitySettings.shadowDistance = Mathf.Lerp(minShadowDistance, maxShadowDistance, i);
-            sunLight.shadowBias = Mathf.Lerp(minShadowBias, maxShadowBias, 1 - ((1 - i)*(1 - i)));
+            sunLight.shadowBias = Mathf.Lerp(minShadowBias, maxShadowBias, 1 - ((1 - i) * (1 - i)));
             sunLight.shadowStrength = Mathf.Lerp(m_OriginalStrength, 0, i);
         }
     }

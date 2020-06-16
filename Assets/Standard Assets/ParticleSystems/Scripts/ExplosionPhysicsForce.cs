@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,19 +17,19 @@ namespace UnityStandardAssets.Effects
 
             float multiplier = GetComponent<ParticleSystemMultiplier>().multiplier;
 
-            float r = 10*multiplier;
-            var cols = Physics.OverlapSphere(transform.position, r);
-            var rigidbodies = new List<Rigidbody>();
-            foreach (var col in cols)
+            float r = 10 * multiplier;
+            Collider[] cols = Physics.OverlapSphere(transform.position, r);
+            List<Rigidbody> rigidbodies = new List<Rigidbody>();
+            foreach (Collider col in cols)
             {
                 if (col.attachedRigidbody != null && !rigidbodies.Contains(col.attachedRigidbody))
                 {
                     rigidbodies.Add(col.attachedRigidbody);
                 }
             }
-            foreach (var rb in rigidbodies)
+            foreach (Rigidbody rb in rigidbodies)
             {
-                rb.AddExplosionForce(explosionForce*multiplier, transform.position, r, 1*multiplier, ForceMode.Impulse);
+                rb.AddExplosionForce(explosionForce * multiplier, transform.position, r, 1 * multiplier, ForceMode.Impulse);
             }
         }
     }

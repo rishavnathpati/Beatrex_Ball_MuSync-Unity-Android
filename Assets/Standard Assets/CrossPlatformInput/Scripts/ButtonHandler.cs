@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace UnityStandardAssets.CrossPlatformInput
@@ -8,7 +7,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 
         public string Name;
 
-        void OnEnable()
+        private void OnEnable()
         {
 
         }

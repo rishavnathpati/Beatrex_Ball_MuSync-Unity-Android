@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
                 Destroy(collision.gameObject, 1.5f);
                 if (PlayerPrefs.GetInt("EDMis") == 1)
                 {
-                    colorValue = 0.5f;
+                    colorValue = 0.99f;
                 }
 
                 StairSpawner.instance.InitColour(colorValue);
@@ -285,6 +285,7 @@ public class Player : MonoBehaviour
 
     public void RespwanPos()
     {
+        Debug.Log("Respawing now");
         transform.position = new Vector2(0, transform.position.y + 3f);
         Time.timeScale = timeScaleValue;
         audio[audioTrackNumber].Play();
@@ -295,14 +296,12 @@ public class Player : MonoBehaviour
     private void PlayAudio(int soundNumber)
     {
         audio[soundNumber].Play();
-        //Debug.LogWarning("Audio being played: " + soundNumber);
     }
 
     private void PauseAudio(int audioNumber)
     {
         audio[audioNumber].Pause();
     }
-
 
     private void GameOver()
     {

@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine.UI;
+using UnityStandardAssets.CrossPlatformInput;
 //change GUITexture to Image
 [RequireComponent(typeof(Image))]
 

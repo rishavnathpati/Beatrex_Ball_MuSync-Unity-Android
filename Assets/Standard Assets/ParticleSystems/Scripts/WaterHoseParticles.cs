@@ -1,6 +1,5 @@
-using System;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UnityStandardAssets.Effects
 {
@@ -10,7 +9,7 @@ namespace UnityStandardAssets.Effects
         public float force = 1;
 
 
-        private List<ParticleCollisionEvent> m_CollisionEvents = new List<ParticleCollisionEvent>();
+        private readonly List<ParticleCollisionEvent> m_CollisionEvents = new List<ParticleCollisionEvent>();
         private ParticleSystem m_ParticleSystem;
 
 
@@ -32,12 +31,12 @@ namespace UnityStandardAssets.Effects
                     lastSoundTime = Time.time;
                 }
 
-                var col = m_CollisionEvents[i].colliderComponent;
-                var attachedRigidbody = col.GetComponent<Rigidbody>();
+                Component col = m_CollisionEvents[i].colliderComponent;
+                Rigidbody attachedRigidbody = col.GetComponent<Rigidbody>();
                 if (attachedRigidbody != null)
                 {
                     Vector3 vel = m_CollisionEvents[i].velocity;
-                    attachedRigidbody.AddForce(vel*force, ForceMode.Impulse);
+                    attachedRigidbody.AddForce(vel * force, ForceMode.Impulse);
                 }
 
                 other.BroadcastMessage("Extinguish", SendMessageOptions.DontRequireReceiver);

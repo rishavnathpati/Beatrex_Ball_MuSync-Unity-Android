@@ -9,59 +9,59 @@ namespace UnityStandardAssets.Utility
 {
     public class AutoMobileShaderSwitch : MonoBehaviour
     {
-        [SerializeField] private ReplacementList m_ReplacementList;
+        [SerializeField] private readonly ReplacementList m_ReplacementList;
 
         // Use this for initialization
         private void OnEnable()
         {
 #if UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_TIZEN
-			var renderers = FindObjectsOfType<Renderer>();
-			Debug.Log (renderers.Length+" renderers");
-			var oldMaterials = new List<Material>();
-			var newMaterials = new List<Material>();
+            Renderer[] renderers = FindObjectsOfType<Renderer>();
+            Debug.Log(renderers.Length + " renderers");
+            List<Material> oldMaterials = new List<Material>();
+            List<Material> newMaterials = new List<Material>();
 
-			int materialsReplaced = 0;
-			int materialInstancesReplaced = 0;
+            int materialsReplaced = 0;
+            int materialInstancesReplaced = 0;
 
-			foreach(ReplacementDefinition replacementDef in m_ReplacementList.items)
-			{
-				foreach(var r in renderers)
-				{
-					Material[] modifiedMaterials = null;
-					for(int n=0; n<r.sharedMaterials.Length; ++n)
-					{
-						var material = r.sharedMaterials[n];
-						if (material.shader == replacementDef.original)
-						{
-							if (modifiedMaterials == null)
-							{
-								modifiedMaterials = r.materials;
-							}
-							if (!oldMaterials.Contains(material))
-							{
-								oldMaterials.Add(material);
-								Material newMaterial = (Material)Instantiate(material);
-								newMaterial.shader = replacementDef.replacement;
-								newMaterials.Add(newMaterial);
-								++materialsReplaced;
-							}
-							Debug.Log ("replacing "+r.gameObject.name+" renderer "+n+" with "+newMaterials[oldMaterials.IndexOf(material)].name);
-							modifiedMaterials[n] = newMaterials[oldMaterials.IndexOf(material)];
-							++materialInstancesReplaced;
-						}
-					}
-					if (modifiedMaterials != null)
-					{
-						r.materials = modifiedMaterials;
-					}
-				}
-			}
-			Debug.Log (materialInstancesReplaced+" material instances replaced");
-			Debug.Log (materialsReplaced+" materials replaced");
-			for(int n=0; n<oldMaterials.Count; ++n)
-			{
-				Debug.Log (oldMaterials[n].name+" ("+oldMaterials[n].shader.name+")"+" replaced with "+newMaterials[n].name+" ("+newMaterials[n].shader.name+")");
-			}
+            foreach (ReplacementDefinition replacementDef in m_ReplacementList.items)
+            {
+                foreach (Renderer r in renderers)
+                {
+                    Material[] modifiedMaterials = null;
+                    for (int n = 0; n < r.sharedMaterials.Length; ++n)
+                    {
+                        Material material = r.sharedMaterials[n];
+                        if (material.shader == replacementDef.original)
+                        {
+                            if (modifiedMaterials == null)
+                            {
+                                modifiedMaterials = r.materials;
+                            }
+                            if (!oldMaterials.Contains(material))
+                            {
+                                oldMaterials.Add(material);
+                                Material newMaterial = Instantiate(material);
+                                newMaterial.shader = replacementDef.replacement;
+                                newMaterials.Add(newMaterial);
+                                ++materialsReplaced;
+                            }
+                            Debug.Log("replacing " + r.gameObject.name + " renderer " + n + " with " + newMaterials[oldMaterials.IndexOf(material)].name);
+                            modifiedMaterials[n] = newMaterials[oldMaterials.IndexOf(material)];
+                            ++materialInstancesReplaced;
+                        }
+                    }
+                    if (modifiedMaterials != null)
+                    {
+                        r.materials = modifiedMaterials;
+                    }
+                }
+            }
+            Debug.Log(materialInstancesReplaced + " material instances replaced");
+            Debug.Log(materialsReplaced + " materials replaced");
+            for (int n = 0; n < oldMaterials.Count; ++n)
+            {
+                Debug.Log(oldMaterials[n].name + " (" + oldMaterials[n].shader.name + ")" + " replaced with " + newMaterials[n].name + " (" + newMaterials[n].shader.name + ")");
+            }
 #endif
         }
 
@@ -84,11 +84,11 @@ namespace UnityStandardAssets.Utility
 namespace UnityStandardAssets.Utility.Inspector
 {
 #if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof (AutoMobileShaderSwitch.ReplacementList))]
+    [CustomPropertyDrawer(typeof(AutoMobileShaderSwitch.ReplacementList))]
     public class ReplacementListDrawer : PropertyDrawer
     {
-        const float k_LineHeight = 18;
-        const float k_Spacing = 4;
+        private const float k_LineHeight = 18;
+        private const float k_Spacing = 4;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -99,25 +99,25 @@ namespace UnityStandardAssets.Utility.Inspector
             float inspectorWidth = position.width;
 
             // Don't make child fields be indented
-            var indent = EditorGUI.indentLevel;
+            int indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            var items = property.FindPropertyRelative("items");
-            var titles = new string[] {"Original", "Replacement", ""};
-            var props = new string[] {"original", "replacement", "-"};
-            var widths = new float[] {.45f, .45f, .1f};
+            SerializedProperty items = property.FindPropertyRelative("items");
+            string[] titles = new string[] { "Original", "Replacement", "" };
+            string[] props = new string[] { "original", "replacement", "-" };
+            float[] widths = new float[] { .45f, .45f, .1f };
             const float lineHeight = 18;
             bool changedLength = false;
             if (items.arraySize > 0)
             {
                 for (int i = -1; i < items.arraySize; ++i)
                 {
-                    var item = items.GetArrayElementAtIndex(i);
+                    SerializedProperty item = items.GetArrayElementAtIndex(i);
 
                     float rowX = x;
                     for (int n = 0; n < props.Length; ++n)
                     {
-                        float w = widths[n]*inspectorWidth;
+                        float w = widths[n] * inspectorWidth;
 
                         // Calculate rects
                         Rect rect = new Rect(rowX, y, w, lineHeight);
@@ -173,8 +173,8 @@ namespace UnityStandardAssets.Utility.Inspector
             }
 
             // add button
-            var addButtonRect = new Rect((x + position.width) - widths[widths.Length - 1]*inspectorWidth, y,
-                                         widths[widths.Length - 1]*inspectorWidth, lineHeight);
+            Rect addButtonRect = new Rect((x + position.width) - widths[widths.Length - 1] * inspectorWidth, y,
+                                         widths[widths.Length - 1] * inspectorWidth, lineHeight);
             if (GUI.Button(addButtonRect, "+"))
             {
                 items.InsertArrayElementAtIndex(items.arraySize);
@@ -192,7 +192,7 @@ namespace UnityStandardAssets.Utility.Inspector
         {
             SerializedProperty items = property.FindPropertyRelative("items");
             float lineAndSpace = k_LineHeight + k_Spacing;
-            return 40 + (items.arraySize*lineAndSpace) + lineAndSpace;
+            return 40 + (items.arraySize * lineAndSpace) + lineAndSpace;
         }
     }
 #endif

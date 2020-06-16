@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 
@@ -18,19 +17,19 @@ namespace UnityStandardAssets.Effects
         // Update is called once per frame
         private void Update()
         {
-            m_Power = Mathf.Lerp(m_Power, Input.GetMouseButton(0) ? maxPower : minPower, Time.deltaTime*changeSpeed);
+            m_Power = Mathf.Lerp(m_Power, Input.GetMouseButton(0) ? maxPower : minPower, Time.deltaTime * changeSpeed);
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 systemRenderer.enabled = !systemRenderer.enabled;
             }
 
-            foreach (var system in hoseWaterSystems)
+            foreach (ParticleSystem system in hoseWaterSystems)
             {
-				ParticleSystem.MainModule mainModule = system.main;
+                ParticleSystem.MainModule mainModule = system.main;
                 mainModule.startSpeed = m_Power;
-                var emission = system.emission;
-                emission.enabled = (m_Power > minPower*1.1f);
+                ParticleSystem.EmissionModule emission = system.emission;
+                emission.enabled = (m_Power > minPower * 1.1f);
             }
         }
     }
