@@ -54,7 +54,8 @@ public class MenuManager : MonoBehaviour
             respawning321.Play();
             gamePaused = false;
             PlayerPrefs.SetInt("livesRemaining", PlayerPrefs.GetInt("livesRemaining") - 1);
-            Player.instance.RespwanPos();
+            //Player.instance.RespwanPos();//Not working as of now
+            Player.instance.RespwanPlayerPos();
         }
         else
         {
