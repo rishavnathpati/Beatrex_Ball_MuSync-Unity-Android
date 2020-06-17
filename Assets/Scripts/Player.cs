@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (collision.CompareTag("SpikeyStair") && !isBoosted && !glitchModeOn)
+        if (collision.CompareTag("SpikeyStair") && !isBoosted && !glitchModeOn && !MenuManager.gamePaused)
         {
             playerHasCollidedWithSpike = true;
             PlayAudio(16);
@@ -156,29 +156,17 @@ public class Player : MonoBehaviour
     private void GiveBoostToPlayer(float boost, int score)
     {
         isBoosted = true;
-        IncreaseVelocity(boost);
-        InvokeRepeating("ShakePlayer", 0f, 0.5f);
-        Invoke("CancelInvoke1", 1.5f);
+        rb.velocity = new Vector2(0f, boost);
+        Invoke("SetIsBoostedFalse", 1.5f);
         for (int i = 0; i < score; i++)
         {
             IncreaseScore();
         }
     }
 
-    private void IncreaseVelocity(float boost)
-    {
-        rb.velocity = new Vector2(0f, boost);
-    }
-
-    private void ShakePlayer()
-    {
-        transform.position = new Vector2((UnityEngine.Random.Range(-2f, 2f)), transform.position.y);
-    }
-
-    private void CancelInvoke1()
+    private void SetIsBoostedFalse()
     {
         isBoosted = false;
-        CancelInvoke("ShakePlayer");
     }
 
     private void IncreaseScore()
@@ -228,7 +216,7 @@ public class Player : MonoBehaviour
 
     private void GetInput()
     {
-        if (Input.GetMouseButtonDown(0) && !MenuManager.gamePaused)
+        if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("Mouse button Down");
             isDragging = true;
@@ -283,19 +271,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void RespwanPlayerPos()
+    public void RespawnPlayerPos()
     {
+        Time.timeScale = timeScaleValue;
+        PlayerPrefs.SetInt("livesRemaining", PlayerPrefs.GetInt("livesRemaining") - 1);
         Debug.Log("Respawing now");
-        transform.position = new Vector2(0, transform.position.y + 3f);
         Time.timeScale = timeScaleValue;
         audio[audioTrackNumber].Play();
         playerHasCollidedWithSpike = false;
-        GiveBoostToPlayer(jumpForce, 0);
+        MenuManager.gamePaused = false;
     }
 
-    public void RespwanPos()
+    public void RespawnPlayer()
     {
-        Invoke("RespwanPlayerPos", 2.5f);
+        transform.position = new Vector2(0, transform.position.y + 3f);
+        GiveBoostToPlayer(jumpForce-10f, 5);
+        Invoke("RespawnPlayerPos", 3);
     }
 
     private void PlayAudio(int soundNumber)

@@ -52,10 +52,9 @@ public class MenuManager : MonoBehaviour
         if (PlayerPrefs.GetInt("livesRemaining") > 0)
         {
             respawning321.Play();
-            gamePaused = false;
-            PlayerPrefs.SetInt("livesRemaining", PlayerPrefs.GetInt("livesRemaining") - 1);
-            //Player.instance.RespwanPos();//Not working as of now, uncomment this to check, and comment the next line
-            Player.instance.RespwanPlayerPos();//Working
+            gamePaused = true;
+            Time.timeScale = 1f;
+            Player.instance.RespawnPlayer();//Working     
         }
         else
         {

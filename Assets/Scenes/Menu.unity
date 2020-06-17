@@ -712,6 +712,7 @@ MonoBehaviour:
   GetaLife: {fileID: 0}
   GameOverPanel: {fileID: 0}
   LifeCount: {fileID: 0}
+  respawning321: {fileID: 0}
 --- !u!1 &307098305
 GameObject:
   m_ObjectHideFlags: 0
@@ -3864,6 +3865,11 @@ PrefabInstance:
         type: 3}
       propertyPath: lengthInSec
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 397970068530247403, guid: 6de40d6701d1f6944802aeedda0b9453,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6de40d6701d1f6944802aeedda0b9453, type: 3}
