@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f663dc3679a24ade9f48673bbd56dc73
+labels:
+- gvh
+- gvh_manifest
+- gvh_version-1.2.153
+- gvhp_exportpath-ExternalDependencyManager/Editor/external-dependency-manager_version-1.2.153_manifest.txt
+- gvhp_manifestname-0External Dependency Manager
+- gvhp_manifestname-play-services-resolver
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
