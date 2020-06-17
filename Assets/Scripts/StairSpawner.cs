@@ -69,7 +69,6 @@ public class StairSpawner : MonoBehaviour
 
             spikeyIsRecent = true;
         }
-
         else
         {
             stair = Instantiate(stairPrefab, newPosition, Quaternion.identity);
@@ -79,12 +78,18 @@ public class StairSpawner : MonoBehaviour
         stair.transform.SetParent(transform);
         stair.GetComponent<SpriteRenderer>().color = Color.HSVToRGB(Random.Range(0f, 0.9f), 1f, 0.15f);
 
-        if (UnityEngine.Random.Range(0, 15) == 1 && score > 2)
+        if (UnityEngine.Random.Range(0, 15) < 2 && index>20)//Instantiating orbs
         {
-            MakeOrb(index);
+            Instantiate(Orb, new Vector2(UnityEngine.Random.Range(-3f, 3f), index * 3.5f), Quaternion.identity);
+        }
+
+        if (index % 150 == 0)//instanciating vortex
+        {
+            Instantiate(Vortex, new Vector2(UnityEngine.Random.Range(-4f, 4f), index * 3.5f), Quaternion.identity);
         }
 
         index++;
+        Debug.Log(index);
     }
 
     public void SpecialStairs(float pos)
@@ -92,16 +97,6 @@ public class StairSpawner : MonoBehaviour
         newPosition = new Vector2(UnityEngine.Random.Range(-4.6f, 4.6f), pos);
         stair = Instantiate(stairPrefab, newPosition, Quaternion.identity);
         stair.transform.SetParent(transform);
-    }
-
-
-    public void MakeOrb(int index)
-    {
-        Instantiate(Orb, new Vector2(UnityEngine.Random.Range(-3f, 3f), index * 3.5f), Quaternion.identity);
-        if (index % 120 == 0)
-        {
-            Instantiate(Vortex, new Vector2(UnityEngine.Random.Range(-4f, 4f), index * 3.5f), Quaternion.identity);
-        }
     }
 
     public void InitColour(float value)

@@ -285,7 +285,7 @@ public class Player : MonoBehaviour
     public void RespawnPlayer()
     {
         transform.position = new Vector2(0, transform.position.y + 3f);
-        GiveBoostToPlayer(jumpForce-10f, 5);
+        GiveBoostToPlayer(jumpForce - 10f, 5);
         Invoke("RespawnPlayerPos", 3);
     }
 
@@ -307,6 +307,19 @@ public class Player : MonoBehaviour
         if (playerOutOfScreen)
         {
             respawnButton.SetActive(false);
+            if (PlayerPrefs.HasKey("AdCount"))
+            {
+                PlayerPrefs.SetInt("AdCount", PlayerPrefs.GetInt("AdCount") + 1);
+            }
+            else
+            {
+                PlayerPrefs.SetInt("AdCount", 1);
+            }
+
+            if (PlayerPrefs.GetInt("AdCount") % 4 == 0)
+            {
+                AdManager.instance.PlayInterstitialAd();
+            }
         }
 
         LifeCount.text = PlayerPrefs.GetInt("livesRemaining").ToString();

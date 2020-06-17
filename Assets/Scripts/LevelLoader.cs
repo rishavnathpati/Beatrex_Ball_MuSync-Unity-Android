@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,7 +6,6 @@ using UnityEngine.UI;
 public class LevelLoader : MonoBehaviour
 {
     public GameObject loadingScreen;
-    public TextMeshProUGUI loadingText;
     public Slider slider;
     public void LoadLevel(int sceneIndex)
     {
@@ -22,7 +20,6 @@ public class LevelLoader : MonoBehaviour
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
             slider.value = progress;
-            //loadingText.text = "L O A D I N G : " + (progress * 100).ToString() + " %";
             yield return null;
         }
     }
