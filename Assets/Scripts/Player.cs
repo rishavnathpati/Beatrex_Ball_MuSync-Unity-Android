@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     public GameObject respawnButton; //to get access to the respawn button
     public GameObject LoFiImage;
     public GameObject EDMImage;
-    private int score; //to keep count of the score
+    public int score; //to keep count of the score
     private int scoreHundreadthCount = -1; // to keep count of the number of hundreadths reached
     private int orbCount = 0; //to keep count of the number of orbs collected
     private int audioTrackNumber; //to keep the audio track number
@@ -323,7 +323,7 @@ public class Player : MonoBehaviour
         }
 
         LifeCount.text = PlayerPrefs.GetInt("livesRemaining").ToString();
-
+        LeaderboardManager.instance.AddScoreToLeaderboard();
         UIPanel.SetActive(false);
     }
 
