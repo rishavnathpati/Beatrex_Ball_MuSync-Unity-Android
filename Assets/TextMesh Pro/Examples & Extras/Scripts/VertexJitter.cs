@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 
 namespace TMPro.Examples
@@ -25,40 +25,40 @@ namespace TMPro.Examples
             public float speed;
         }
 
-        private void Awake()
+        void Awake()
         {
             m_TextComponent = GetComponent<TMP_Text>();
         }
 
-        private void OnEnable()
+        void OnEnable()
         {
             // Subscribe to event fired when text object has been regenerated.
             TMPro_EventManager.TEXT_CHANGED_EVENT.Add(ON_TEXT_CHANGED);
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
             TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(ON_TEXT_CHANGED);
         }
 
-        private void Start()
+
+        void Start()
         {
             StartCoroutine(AnimateVertexColors());
         }
 
-        private void ON_TEXT_CHANGED(Object obj)
+
+        void ON_TEXT_CHANGED(Object obj)
         {
             if (obj == m_TextComponent)
-            {
                 hasTextChanged = true;
-            }
         }
 
         /// <summary>
         /// Method to animate vertex colors of a TMP Text object.
         /// </summary>
         /// <returns></returns>
-        private IEnumerator AnimateVertexColors()
+        IEnumerator AnimateVertexColors()
         {
 
             // We force an update of the text object since it would only be updated at the end of the frame. Ie. before this code is executed on the first frame.
@@ -110,9 +110,7 @@ namespace TMPro.Examples
 
                     // Skip characters that are not visible and thus have no geometry to manipulate.
                     if (!charInfo.isVisible)
-                    {
                         continue;
-                    }
 
                     // Retrieve the pre-computed animation data for the given character.
                     VertexAnim vertAnim = vertexAnim[i];

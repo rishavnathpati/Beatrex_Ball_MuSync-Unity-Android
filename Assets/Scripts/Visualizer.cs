@@ -39,6 +39,11 @@ public class Visualizer : MonoBehaviour
     [System.Obsolete]
     private void FixedUpdate()
     {
+        if (audioSource == null)
+        {
+            return;
+        }
+
         float[] spectrumData = audioSource.GetSpectrumData(visualizerSimples, 0, FFTWindow.Rectangular);
 
         for (int i = 0; i < visualizerObjects.Length; i++)

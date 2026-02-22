@@ -105,10 +105,10 @@ public class Player : MonoBehaviour
     {
         if (collision.CompareTag("Stair"))
         {
-            if (rb.velocity.y <= 0f)
+            if (rb.linearVelocity.y <= 0f)
             {
                 JumpEffect();
-                rb.velocity = new Vector2(0, jumpForce);
+                rb.linearVelocity = new Vector2(0, jumpForce);
                 Destroy(collision.gameObject, 1.5f);
                 if (PlayerPrefs.GetInt("EDMis") == 1)
                 {
@@ -156,7 +156,7 @@ public class Player : MonoBehaviour
     private void GiveBoostToPlayer(float boost, int score)
     {
         isBoosted = true;
-        rb.velocity = new Vector2(0f, boost);
+        rb.linearVelocity = new Vector2(0f, boost);
         Invoke("SetIsBoostedFalse", 1.5f);
         for (int i = 0; i < score; i++)
         {
@@ -252,7 +252,7 @@ public class Player : MonoBehaviour
     {
         if (!MenuManager.gamePaused)
         {
-            rb.velocity = new Vector2(0, rb.velocity.y - .4f);
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y - .4f);
         }
     }
 
@@ -307,23 +307,9 @@ public class Player : MonoBehaviour
         if (playerOutOfScreen)
         {
             respawnButton.SetActive(false);
-            if (PlayerPrefs.HasKey("AdCount"))
-            {
-                PlayerPrefs.SetInt("AdCount", PlayerPrefs.GetInt("AdCount") + 1);
-            }
-            else
-            {
-                PlayerPrefs.SetInt("AdCount", 1);
-            }
-
-            if (PlayerPrefs.GetInt("AdCount") % 4 == 0)
-            {
-                AdManager.instance.PlayInterstitialAd();
-            }
         }
 
         LifeCount.text = PlayerPrefs.GetInt("livesRemaining").ToString();
-        LeaderboardManager.instance.AddScoreToLeaderboard();
         UIPanel.SetActive(false);
     }
 

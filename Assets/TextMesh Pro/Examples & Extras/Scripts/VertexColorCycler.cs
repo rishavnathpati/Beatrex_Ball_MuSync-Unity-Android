@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 
 namespace TMPro.Examples
@@ -10,12 +10,13 @@ namespace TMPro.Examples
 
         private TMP_Text m_TextComponent;
 
-        private void Awake()
+        void Awake()
         {
             m_TextComponent = GetComponent<TMP_Text>();
         }
 
-        private void Start()
+
+        void Start()
         {
             StartCoroutine(AnimateVertexColors());
         }
@@ -25,7 +26,7 @@ namespace TMPro.Examples
         /// Method to animate vertex colors of a TMP Text object.
         /// </summary>
         /// <returns></returns>
-        private IEnumerator AnimateVertexColors()
+        IEnumerator AnimateVertexColors()
         {
             // Force the text object to update right away so we can have geometry to modify right from the start.
             m_TextComponent.ForceMeshUpdate();

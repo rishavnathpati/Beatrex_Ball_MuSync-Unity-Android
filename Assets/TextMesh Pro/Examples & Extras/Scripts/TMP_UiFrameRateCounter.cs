@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 
 namespace TMPro.Examples
@@ -22,25 +23,23 @@ namespace TMPro.Examples
 
         private FpsCounterAnchorPositions last_AnchorPosition;
 
-        private void Awake()
+        void Awake()
         {
             if (!enabled)
-            {
                 return;
-            }
 
             Application.targetFrameRate = 1000;
 
             GameObject frameCounter = new GameObject("Frame Counter");
             m_frameCounter_transform = frameCounter.AddComponent<RectTransform>();
 
-            m_frameCounter_transform.SetParent(transform, false);
+            m_frameCounter_transform.SetParent(this.transform, false);
 
             m_TextMeshPro = frameCounter.AddComponent<TextMeshProUGUI>();
             m_TextMeshPro.font = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
             m_TextMeshPro.fontSharedMaterial = Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - Overlay");
 
-            m_TextMeshPro.enableWordWrapping = false;
+            m_TextMeshPro.textWrappingMode = TextWrappingModes.NoWrap;
             m_TextMeshPro.fontSize = 36;
 
             m_TextMeshPro.isOverlay = true;
@@ -49,18 +48,18 @@ namespace TMPro.Examples
             last_AnchorPosition = AnchorPosition;
         }
 
-        private void Start()
+
+        void Start()
         {
             m_LastInterval = Time.realtimeSinceStartup;
             m_Frames = 0;
         }
 
-        private void Update()
+
+        void Update()
         {
             if (AnchorPosition != last_AnchorPosition)
-            {
                 Set_FrameCounter_Position(AnchorPosition);
-            }
 
             last_AnchorPosition = AnchorPosition;
 
@@ -74,17 +73,11 @@ namespace TMPro.Examples
                 float ms = 1000.0f / Mathf.Max(fps, 0.00001f);
 
                 if (fps < 30)
-                {
                     htmlColorTag = "<color=yellow>";
-                }
                 else if (fps < 10)
-                {
                     htmlColorTag = "<color=red>";
-                }
                 else
-                {
                     htmlColorTag = "<color=green>";
-                }
 
                 m_TextMeshPro.SetText(htmlColorTag + fpsLabel, fps, ms);
 
@@ -93,7 +86,8 @@ namespace TMPro.Examples
             }
         }
 
-        private void Set_FrameCounter_Position(FpsCounterAnchorPositions anchor_position)
+
+        void Set_FrameCounter_Position(FpsCounterAnchorPositions anchor_position)
         {
             switch (anchor_position)
             {

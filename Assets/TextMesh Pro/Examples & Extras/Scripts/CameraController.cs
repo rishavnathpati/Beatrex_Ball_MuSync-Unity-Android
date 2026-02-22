@@ -1,9 +1,10 @@
 using UnityEngine;
+using System.Collections;
 
 
 namespace TMPro.Examples
 {
-
+    
     public class CameraController : MonoBehaviour
     {
         public enum CameraModes { Follow, Isometric, Free }
@@ -48,21 +49,16 @@ namespace TMPro.Examples
         private const string event_SmoothingValue = "Slider - Smoothing Value";
         private const string event_FollowDistance = "Slider - Camera Zoom";
 
-        private void Awake()
+
+        void Awake()
         {
             if (QualitySettings.vSyncCount > 0)
-            {
                 Application.targetFrameRate = 60;
-            }
             else
-            {
                 Application.targetFrameRate = -1;
-            }
 
             if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
-            {
                 Input.simulateMouseWithTouches = false;
-            }
 
             cameraTransform = transform;
             previousSmoothing = MovementSmoothing;
@@ -70,7 +66,7 @@ namespace TMPro.Examples
 
 
         // Use this for initialization
-        private void Start()
+        void Start()
         {
             if (CameraTarget == null)
             {
@@ -81,7 +77,7 @@ namespace TMPro.Examples
         }
 
         // Update is called once per frame
-        private void LateUpdate()
+        void LateUpdate()
         {
             GetPlayerInput();
 
@@ -115,9 +111,7 @@ namespace TMPro.Examples
                 }
 
                 if (RotationSmoothing == true)
-                {
                     cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, Quaternion.LookRotation(CameraTarget.position - cameraTransform.position), RotationSmoothingValue * Time.deltaTime);
-                }
                 else
                 {
                     cameraTransform.LookAt(CameraTarget);
@@ -127,7 +121,9 @@ namespace TMPro.Examples
 
         }
 
-        private void GetPlayerInput()
+
+
+        void GetPlayerInput()
         {
             moveVector = Vector3.zero;
 
@@ -141,19 +137,13 @@ namespace TMPro.Examples
                 mouseWheel *= 10;
 
                 if (Input.GetKeyDown(KeyCode.I))
-                {
                     CameraMode = CameraModes.Isometric;
-                }
 
                 if (Input.GetKeyDown(KeyCode.F))
-                {
                     CameraMode = CameraModes.Follow;
-                }
 
                 if (Input.GetKeyDown(KeyCode.S))
-                {
                     MovementSmoothing = !MovementSmoothing;
-                }
 
 
                 // Check for right mouse button to change camera follow and elevation angle
@@ -173,14 +163,9 @@ namespace TMPro.Examples
                     {
                         OrbitalAngle += mouseX * MoveSensitivity;
                         if (OrbitalAngle > 360)
-                        {
                             OrbitalAngle -= 360;
-                        }
-
                         if (OrbitalAngle < 0)
-                        {
                             OrbitalAngle += 360;
-                        }
                     }
                 }
 
@@ -203,14 +188,9 @@ namespace TMPro.Examples
                     {
                         OrbitalAngle += deltaPosition.x * 0.1f;
                         if (OrbitalAngle > 360)
-                        {
                             OrbitalAngle -= 360;
-                        }
-
                         if (OrbitalAngle < 0)
-                        {
                             OrbitalAngle += 360;
-                        }
                     }
 
                 }
@@ -219,8 +199,9 @@ namespace TMPro.Examples
                 if (Input.GetMouseButton(0))
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
 
-                    if (Physics.Raycast(ray, out RaycastHit hit, 300, 1 << 10 | 1 << 11 | 1 << 12 | 1 << 14))
+                    if (Physics.Raycast(ray, out hit, 300, 1 << 10 | 1 << 11 | 1 << 12 | 1 << 14))
                     {
                         if (hit.transform == CameraTarget)
                         {

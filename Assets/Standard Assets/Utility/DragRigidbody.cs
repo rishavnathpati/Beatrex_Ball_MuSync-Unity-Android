@@ -62,10 +62,10 @@ namespace UnityStandardAssets.Utility
 
         private IEnumerator DragObject(float distance)
         {
-            float oldDrag = m_SpringJoint.connectedBody.drag;
-            float oldAngularDrag = m_SpringJoint.connectedBody.angularDrag;
-            m_SpringJoint.connectedBody.drag = k_Drag;
-            m_SpringJoint.connectedBody.angularDrag = k_AngularDrag;
+            float oldDrag = m_SpringJoint.connectedBody.linearDamping;
+            float oldAngularDrag = m_SpringJoint.connectedBody.angularDamping;
+            m_SpringJoint.connectedBody.linearDamping = k_Drag;
+            m_SpringJoint.connectedBody.angularDamping = k_AngularDrag;
             Camera mainCamera = FindCamera();
             while (Input.GetMouseButton(0))
             {
@@ -75,8 +75,8 @@ namespace UnityStandardAssets.Utility
             }
             if (m_SpringJoint.connectedBody)
             {
-                m_SpringJoint.connectedBody.drag = oldDrag;
-                m_SpringJoint.connectedBody.angularDrag = oldAngularDrag;
+                m_SpringJoint.connectedBody.linearDamping = oldDrag;
+                m_SpringJoint.connectedBody.angularDamping = oldAngularDrag;
                 m_SpringJoint.connectedBody = null;
             }
         }

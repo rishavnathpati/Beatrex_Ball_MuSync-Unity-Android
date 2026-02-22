@@ -1,43 +1,51 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class ChatController : MonoBehaviour
-{
+public class ChatController : MonoBehaviour {
 
 
-    public TMP_InputField TMP_ChatInput;
+    public TMP_InputField ChatInputField;
 
-    public TMP_Text TMP_ChatOutput;
+    public TMP_Text ChatDisplayOutput;
 
     public Scrollbar ChatScrollbar;
 
-    private void OnEnable()
+    void OnEnable()
     {
-        TMP_ChatInput.onSubmit.AddListener(AddToChatOutput);
-
+        ChatInputField.onSubmit.AddListener(AddToChatOutput);
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
-        TMP_ChatInput.onSubmit.RemoveListener(AddToChatOutput);
-
+        ChatInputField.onSubmit.RemoveListener(AddToChatOutput);
     }
 
-    private void AddToChatOutput(string newText)
+
+    void AddToChatOutput(string newText)
     {
         // Clear Input Field
-        TMP_ChatInput.text = string.Empty;
+        ChatInputField.text = string.Empty;
 
-        System.DateTime timeNow = System.DateTime.Now;
+        var timeNow = System.DateTime.Now;
 
-        TMP_ChatOutput.text += "[<#FFFF80>" + timeNow.Hour.ToString("d2") + ":" + timeNow.Minute.ToString("d2") + ":" + timeNow.Second.ToString("d2") + "</color>] " + newText + "\n";
+        string formattedInput = "[<#FFFF80>" + timeNow.Hour.ToString("d2") + ":" + timeNow.Minute.ToString("d2") + ":" + timeNow.Second.ToString("d2") + "</color>] " + newText;
 
-        TMP_ChatInput.ActivateInputField();
+        if (ChatDisplayOutput != null)
+        {
+            // No special formatting for first entry
+            // Add line feed before each subsequent entries
+            if (ChatDisplayOutput.text == string.Empty)
+                ChatDisplayOutput.text = formattedInput;
+            else
+                ChatDisplayOutput.text += "\n" + formattedInput;
+        }
+
+        // Keep Chat input field active
+        ChatInputField.ActivateInputField();
 
         // Set the scrollbar to the bottom when next text is submitted.
         ChatScrollbar.value = 0;
-
     }
 
 }
